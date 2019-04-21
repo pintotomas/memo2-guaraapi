@@ -13,6 +13,7 @@ describe JobOffer do
     it { is_expected.to respond_to(:created_on) }
     it { is_expected.to respond_to(:updated_on) }
     it { is_expected.to respond_to(:is_active) }
+    it { is_expected.to respond_to(:required_experience) }
   end
 
   describe 'valid?' do

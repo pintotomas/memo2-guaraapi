@@ -6,6 +6,7 @@ class JobOffer
                 :updated_on, :created_on, :required_experience
 
   validates :title, presence: true
+  validates :required_experience, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   def initialize(data = {})
     @id = data[:id]
@@ -16,7 +17,11 @@ class JobOffer
     @updated_on = data[:updated_on]
     @created_on = data[:created_on]
     @user_id = data[:user_id]
-    @required_experience = data[:required_experience]
+    @required_experience = if data[:required_experience].nil?
+                             0
+                           else
+                             data[:required_experience]
+                           end
   end
 
   def owner

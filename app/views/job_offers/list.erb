@@ -11,6 +11,7 @@
 	<tr>
 		<th>Title</th>
 		<th>Location</th>
+		<th>Required Experience</th>
 		<th>Description</th>
 		<th>Actions</th>
 	</tr>
@@ -22,6 +23,13 @@
 		</td>
 		<td>
 			<%= offer.location %>
+		</td>
+		<td>
+			<%= if offer.required_experience == 0 then 
+			'Not specified' 
+			else
+			 offer.required_experience
+			end %>
 		</td>
 		<td>
 			<%= offer.description %>

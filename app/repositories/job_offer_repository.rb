@@ -39,7 +39,8 @@ class JobOfferRepository < BaseRepository
       location: offer.location,
       description: offer.description,
       is_active: offer.is_active,
-      user_id: offer.owner&.id || offer.user_id
+      user_id: offer.owner&.id || offer.user_id,
+      required_experience: offer.required_experience
     }
   end
 end

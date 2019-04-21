@@ -54,7 +54,7 @@ JobVacancy::App.controllers :job_offers do
       flash[:success] = 'Offer created'
       redirect '/job_offers/my'
     else
-      flash.now[:error] = 'Title is mandatory'
+      flash.now[:error] = 'Title is mandatory / experience must be an integer equal or greater than 0' # rubocop:disable Metrics/LineLength
       render 'job_offers/new'
     end
   end
@@ -67,7 +67,7 @@ JobVacancy::App.controllers :job_offers do
       flash[:success] = 'Offer updated'
       redirect '/job_offers/my'
     else
-      flash.now[:error] = 'Title is mandatory'
+      flash.now[:error] = 'Title is mandatory / experience must be an integer equal or greater than 0' # rubocop:disable Metrics/LineLength
       render 'job_offers/edit'
     end
   end

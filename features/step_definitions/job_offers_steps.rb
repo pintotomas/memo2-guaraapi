@@ -15,7 +15,7 @@ Given(/^I access the new offer page$/) do
   page.should have_content('Title')
 end
 
-When(/^I fill the title with "(.*?)"$/) do |offer_title|
+Given(/^I fill the title with "(.*?)"$/) do |offer_title|
   fill_in('job_offer[title]', with: offer_title)
 end
 
@@ -53,6 +53,15 @@ Given(/^I set title to "(.*?)"$/) do |new_title|
   fill_in('job_offer[title]', with: new_title)
 end
 
-Given(/^I save the modification$/) do
+When(/^I save the modification$/) do
   click_button('Save')
+end
+
+Then(/^I should see that the Required Experience is "(.*?)"$/) do |experience|
+  visit '/job_offers/my'
+  page.should have_content(experience)
+end
+
+Given(/^I set the required experience to "(.*?)"$/) do |experience|
+  fill_in('job_offer[required_experience]', with: experience)
 end

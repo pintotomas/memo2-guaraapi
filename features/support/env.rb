@@ -18,15 +18,13 @@ SimpleCov.start do
   add_group 'Helpers', 'app/helpers'
 end
 
-user_repository = UserRepository.new
-unless user_repository.all.count.positive?
-  user = User.new(
-    email: 'offerer@test.com',
-    name: 'Offerer',
-    password: 'Passw0rd!'
-  )
+subject_repository = SubjectRepository.new
+unless subject_repository.all.count.positive?
+  subject = Subject.new(name: 'Seguridad Nuclear',
+                        professor: 'Homero',
+                        code: '9999')
 
-  user_repository.save(user)
+  subject_repository.save(subject)
 end
 
 Around do |_scenario, block|
@@ -34,4 +32,4 @@ Around do |_scenario, block|
 end
 
 # Capybara.default_driver = :selenium
-Capybara.app = JobVacancy::App.tap { |app| }
+Capybara.app = GuaraApi::App.tap { |app| }

@@ -1,4 +1,4 @@
-module JobVacancy
+module GuaraApi
   class App < Padrino::Application
     register Padrino::Rendering
     register Padrino::Mailer

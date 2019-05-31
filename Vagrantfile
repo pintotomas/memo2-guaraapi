@@ -5,10 +5,10 @@ Vagrant.configure(2) do |config|
   config.vm.box = 'ubuntu/xenial64'
 
   config.vm.network 'forwarded_port', guest: 3000, host: 3000
-  config.vm.hostname = 'jobvacancy'
+  config.vm.hostname = 'guaraapi'
   config.vm.provider 'virtualbox' do |vb|
     vb.memory = '1024'
-    vb.name = 'jobvacancy'
+    vb.name = 'guaraapi'
   end
 
   config.vm.provision 'shell', privileged: false, inline: <<-SHELL
@@ -24,8 +24,8 @@ Vagrant.configure(2) do |config|
     source ~/.rvm/scripts/rvm
     rvm install 2.5.1
     rvm use 2.5.1
-    rvm gemset create jobvacancy
-    rvm gemset use jobvacancy
+    rvm gemset create guaraapi
+    rvm gemset use guaraapi
     gem install bundler -v 1.16.1
   SHELL
 end

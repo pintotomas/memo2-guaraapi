@@ -1,7 +1,7 @@
-CREATE ROLE jobvacancy WITH LOGIN PASSWORD 'jobvacancy'  CREATEDB;
+CREATE ROLE guaraapi WITH LOGIN PASSWORD 'guaraapi'  CREATEDB;
 
-CREATE DATABASE jobvacancy_development;
-CREATE DATABASE jobvacancy_test;
+CREATE DATABASE guaraapi_development;
+CREATE DATABASE guaraapi_test;
 
-GRANT ALL PRIVILEGES ON DATABASE "jobvacancy_development" to jobvacancy;
-GRANT ALL PRIVILEGES ON DATABASE "jobvacancy_test" to jobvacancy;
+GRANT ALL PRIVILEGES ON DATABASE "guaraapi_development" to guaraapi;
+GRANT ALL PRIVILEGES ON DATABASE "guaraapi_test" to guaraapi;

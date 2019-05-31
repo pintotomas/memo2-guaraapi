@@ -8,9 +8,9 @@ before_script:
   - gem install bundler --no-ri --no-rdoc
   - bundle install --without staging production
 variables:
-  POSTGRES_DB: jobvacancy_test
-  POSTGRES_USER: jobvacancy
-  POSTGRES_PASSWORD: jobvacancy
+  POSTGRES_DB: guaraapi_test
+  POSTGRES_USER: guaraapi
+  POSTGRES_PASSWORD: guaraapi
   DB_HOST: postgres
 stages:
   - build

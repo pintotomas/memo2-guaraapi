@@ -5,5 +5,5 @@
 :script: jquery
 :renderer: erb
 :stylesheet: none
-:namespace: JobVacancy
+:namespace: GuaraApi
 :migration_format: number

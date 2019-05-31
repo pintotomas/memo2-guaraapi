@@ -1,7 +1,7 @@
 Job Vacancy Application
 =======================
 
-[![build status](https://gitlab.com/SantiW/jobvacancy/badges/master/build.svg)](https://gitlab.com/SantiW/jobvacancy/commits/master)
+[![build status](https://gitlab.com/fiuba-memo2/tp2/invernalia-api/badges/master/build.svg)](https://gitlab.com/fiuba-memo2/tp2/invernalia-api/commits/master)
 
 ## PostgreSQL setup
 

@@ -1,4 +1,4 @@
-JobVacancy::App.controllers :health do
+GuaraApi::App.controllers :health do
   get :index do
     ping = Ping.create(description: 'health-controller')
     if ping.nil?
@@ -10,7 +10,7 @@ JobVacancy::App.controllers :health do
   end
 
   get :stats, provides: [:json] do
-    { offers_count: JobOffer.count, users_count: User.count }.to_json
+    { subjects_count: Subject.count }.to_json
   end
 
   get :version do
@@ -18,20 +18,8 @@ JobVacancy::App.controllers :health do
   end
 
   get :reset do
-    JobOffer.destroy
     Ping.destroy
-    User.destroy
-    user = User.create(email: 'offerer@test.com',
-                       name: 'Offerer',
-                       password: 'Passw0rd!')
-    JobOffer.create(title: 'Java programmer',
-                    user: user,
-                    description: 'Spring experience required',
-                    location: 'Cordoba')
-    JobOffer.create(title: 'Web programmer',
-                    user: user,
-                    description: 'HTML5 experience required',
-                    location: 'Rosario')
+    Subject.destroy
     'ok'
   end
 end

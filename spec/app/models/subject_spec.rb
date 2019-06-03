@@ -6,6 +6,7 @@ describe Subject do
     it { is_expected.to respond_to(:name) }
     it { is_expected.to respond_to(:professor) }
     it { is_expected.to respond_to(:code) }
+    it { is_expected.to respond_to(:quota) }
   end
 
   describe 'valid?' do

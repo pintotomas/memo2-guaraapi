@@ -17,4 +17,7 @@ GuaraApi::App.controllers :students do
   # get '/example' do
   #   'Hello world!'
   # end
+  get '/academic_offer' do
+    'Materia: Memo2, Código: 95.21, Docente: Nico Paez. Cupos: 25'
+  end
 end

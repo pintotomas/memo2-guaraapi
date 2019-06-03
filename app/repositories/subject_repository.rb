@@ -8,7 +8,8 @@ class SubjectRepository < BaseRepository
     {
       name: subject.name,
       professor: subject.professor,
-      code: subject.code
+      code: subject.code,
+      quota: subject.quota
     }
   end
 end

@@ -3,7 +3,7 @@ class Subject
 
   attr_accessor :id, :name, :professor, :code, :updated_on, :created_on, :quota
 
-  validates :name, :professor, :code, presence: true
+  validates :name, :professor, :code, :quota, presence: true
 
   def initialize(data = {})
     @id = data[:id]

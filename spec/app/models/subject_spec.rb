@@ -10,9 +10,9 @@ describe Subject do
   end
 
   describe 'valid?' do
-    it 'should be true when name, professor, code are not blank' do
+    it 'should be true when name, professor, code, and quota are not blank' do
       subject = described_class.new(name: 'Analisis 2',
-                                    professor: 'Sirne', code: '6201')
+                                    professor: 'Sirne', code: '6201', quota: '3')
       expect(subject.valid?).to eq true
     end
 

@@ -1,3 +1,5 @@
+require 'json'
+
 GuaraApi::App.controllers :students do
   # get :index, :map => '/foo/bar' do
   #   session[:foo] = 'bar'
@@ -18,6 +20,16 @@ GuaraApi::App.controllers :students do
   #   'Hello world!'
   # end
   get '/academic_offer' do
-    'Materia: Memo2, Código: 95.21, Docente: Nico Paez. Cupos: 25'
+    subjects_response = []
+    subjects = SubjectRepository.new.all
+    subjects.each do |subject|
+      subject_response =
+        { codigo: subject[:code],
+          materia: subject[:name],
+          docuente: subject[:professor] }
+
+      subjects_response.push(subject_response)
+    end
+    subjects_response.to_json
   end
 end

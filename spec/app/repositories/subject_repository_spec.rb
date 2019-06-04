@@ -1,8 +1,10 @@
+require 'byebug'
+
 describe SubjectRepository do
   let(:repository) { described_class.new }
 
-  let(:subject_one) do
-    subject_saved = Subject.new(name: 'Analisis 3', professor: 'Sirne', code: '6201')
+  let!(:subject_one) do
+    subject_saved = Subject.new(name: 'Analisis 3', professor: 'Sirne', code: '6201', quota: 9)
     repository.save(subject_saved)
     subject_saved
   end

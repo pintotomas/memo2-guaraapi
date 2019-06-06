@@ -14,7 +14,8 @@ class SubjectRepository < BaseRepository
       name: subject.name,
       professor: subject.professor,
       code: subject.code,
-      quota: subject.quota
+      quota: subject.quota,
+      type: subject.type
     }
   end
 end

@@ -17,4 +17,8 @@ GuaraApi::App.controllers :professors do
   # get '/example' do
   #   'Hello world!'
   # end
+
+  # post :materias, map: '/materias' do
+  #  request_body = JSON.parse(request.body.read.to_s)
+  # end
 end

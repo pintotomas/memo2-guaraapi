@@ -1,9 +1,9 @@
 class Subject
   include ActiveModel::Validations
 
-  attr_accessor :id, :name, :professor, :code, :updated_on, :created_on, :quota
+  attr_accessor :id, :name, :professor, :code, :type, :updated_on, :created_on, :quota
 
-  validates :name, :professor, :code, :quota, presence: true
+  validates :name, :professor, :code, :quota, :type, presence: true
 
   def initialize(data = {})
     @id = data[:id]
@@ -11,6 +11,7 @@ class Subject
     @professor = data[:professor]
     @code = data[:code]
     @quota = data[:quota]
+    @type = data[:type]
     @updated_on = data[:updated_on]
     @created_on = data[:created_on]
   end

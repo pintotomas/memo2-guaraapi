@@ -7,6 +7,9 @@ describe Subject do
     it { is_expected.to respond_to(:professor) }
     it { is_expected.to respond_to(:code) }
     it { is_expected.to respond_to(:quota) }
+    it { is_expected.to respond_to(:type) }
+    it { is_expected.to respond_to(:requires_lab) }
+    it { is_expected.to respond_to(:requires_proyector) }
   end
 
   describe 'valid?' do

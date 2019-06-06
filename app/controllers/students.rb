@@ -30,6 +30,6 @@ GuaraApi::App.controllers :students do
 
       subjects_response.push(subject_response)
     end
-    subjects_response.to_json
+    {'oferta' => subjects_response}.to_json
   end
 end

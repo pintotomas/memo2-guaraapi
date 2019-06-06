@@ -26,7 +26,7 @@ GuaraApi::App.controllers :students do
       subject_response =
         { codigo: subject[:code],
           materia: subject[:name],
-          docuente: subject[:professor] }
+          docente: subject[:professor] }
 
       subjects_response.push(subject_response)
     end

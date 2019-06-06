@@ -12,7 +12,8 @@ describe Subject do
   describe 'valid?' do
     it 'should be true when name, professor, code, type and quota are not blank' do
       subject = described_class.new(name: 'Analisis 2',
-                                    professor: 'Sirne', code: '6201', quota: '3', type: 'coloquio')
+                                    professor: 'Sirne', code: '6201', quota: '3',
+                                    requires_proyector: true, type: 'coloquio')
       expect(subject.valid?).to eq true
     end
 
@@ -36,7 +37,13 @@ describe Subject do
 
     it 'should be false when type is blank' do
       subject = described_class.new(name: 'Analisis 2',
-                                    professor: 'Sirne', code: '', type: '')
+                                    professor: 'Sirne', code: '1234', type: '')
+      expect(subject.valid?).to eq false
+    end
+
+    it 'should be false when requires_proyector is not provided' do
+      subject = described_class.new(name: 'Analisis 2',
+                                    professor: 'Sirne', code: '1234', type: 'coloquio')
       expect(subject.valid?).to eq false
     end
   end

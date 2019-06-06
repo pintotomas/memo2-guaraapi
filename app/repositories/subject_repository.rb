@@ -15,7 +15,8 @@ class SubjectRepository < BaseRepository
       professor: subject.professor,
       code: subject.code,
       quota: subject.quota,
-      type: subject.type
+      type: subject.type,
+      requires_proyector: subject.requires_proyector
     }
   end
 end

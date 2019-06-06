@@ -14,8 +14,8 @@ RSpec.describe '/students' do
 
   it 'consult academic offer' do
     SubjectRepository.new.save(subject_saved)
-    get '/students/academic_offer'
+    get '/materias'
     response = JSON.parse(last_response.body)
-    expect(response.first['codigo'].to_s).to eq subject_saved.code
+    expect(response.first[1][0]['codigo'].to_s).to eq subject_saved.code
   end
 end

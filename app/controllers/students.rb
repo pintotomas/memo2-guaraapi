@@ -19,7 +19,7 @@ GuaraApi::App.controllers :students do
   # get '/example' do
   #   'Hello world!'
   # end
-  get '/academic_offer' do
+  get :materias, map: '/materias' do
     subjects_response = []
     subjects = SubjectRepository.new.all
     subjects.each do |subject|
@@ -30,6 +30,6 @@ GuaraApi::App.controllers :students do
 
       subjects_response.push(subject_response)
     end
-    subjects_response.to_json
+    { 'oferta' => subjects_response }.to_json
   end
 end

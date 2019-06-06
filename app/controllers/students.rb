@@ -19,7 +19,7 @@ GuaraApi::App.controllers :students do
   # get '/example' do
   #   'Hello world!'
   # end
-  get '/academic_offer' do
+  get :materias, map: '/materias' do
     subjects_response = []
     subjects = SubjectRepository.new.all
     subjects.each do |subject|

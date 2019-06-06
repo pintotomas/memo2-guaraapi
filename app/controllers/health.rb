@@ -17,7 +17,7 @@ GuaraApi::App.controllers :health do
     Version.current
   end
 
-  get :reset do
+  get :reset, map: '/reset' do    
     Ping.destroy
     Subject.destroy
     'ok'

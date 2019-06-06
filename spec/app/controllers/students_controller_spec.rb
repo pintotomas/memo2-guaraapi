@@ -4,7 +4,7 @@ require 'byebug'
 RSpec.describe '/students' do
   #  pending "add some examples to #{__FILE__}" do
   let(:subject_saved) do
-    Subject.new(name: 'Algebra 2', requires_proyector: true,
+    Subject.new(name: 'Algebra 2', requires_proyector: true, requires_lab: false,
                 professor: 'F.I', code: '6201', quota: 9, type: 'coloquio')
   end
 

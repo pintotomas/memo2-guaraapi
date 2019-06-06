@@ -16,7 +16,8 @@ class SubjectRepository < BaseRepository
       code: subject.code,
       quota: subject.quota,
       type: subject.type,
-      requires_proyector: subject.requires_proyector
+      requires_proyector: subject.requires_proyector,
+      requires_lab: subject.requires_lab
     }
   end
 end

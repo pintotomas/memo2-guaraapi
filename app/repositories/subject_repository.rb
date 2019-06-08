@@ -13,7 +13,7 @@ class SubjectRepository < BaseRepository
     {
       name: subject.name,
       professor: subject.professor,
-      code: subject.code,
+      id: subject.id,
       quota: subject.quota,
       type: subject.type,
       requires_proyector: subject.requires_proyector,

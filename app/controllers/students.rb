@@ -24,7 +24,7 @@ GuaraApi::App.controllers :students do
     subjects = SubjectRepository.new.all
     subjects.each do |subject|
       subject_response =
-        { codigo: subject[:code],
+        { codigo: subject[:id],
           materia: subject[:name],
           docente: subject[:professor] }
 

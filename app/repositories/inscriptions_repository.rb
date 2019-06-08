@@ -12,7 +12,7 @@ class InscriptionsRepository < BaseRepository
   def changeset(inscription)
     {
       student_id: inscription.student_id,
-      subject_id: inscription.subject_id,
+      code: inscription.subject_id,
       status: inscription.status,
       final_grade: inscription.final_grade
     }

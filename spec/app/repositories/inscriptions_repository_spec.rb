@@ -3,7 +3,7 @@ describe InscriptionsRepository do
 
   let!(:inscription_one) do
     inscription = Inscription.new(id: 1,
-                                  student_id: 'Rob123', subject_id: 245, status: 'inscripto')
+                                  student_id: 'Rob123', code: 245, status: 'inscripto')
     inscription
   end
 

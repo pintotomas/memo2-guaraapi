@@ -4,7 +4,7 @@ module GuaraApi
   class App
     module ProfessorsHelper
       def get_subject_from_json(request_body)
-        Subject.new(code: request_body['codigo'], professor: request_body['docente'],
+        Subject.new(id: request_body['codigo'], professor: request_body['docente'],
                     name: request_body['nombreMateria'], type: request_body['modalidad'],
                     quota: request_body['cupo'], requires_lab: request_body['laboratorio'],
                     requires_proyector: request_body['proyector'])

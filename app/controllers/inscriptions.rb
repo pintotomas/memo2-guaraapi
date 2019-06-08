@@ -28,5 +28,7 @@ GuaraApi::App.controllers :inscription do
     else
       status 500
     end
+  rescue Sequel::ForeignKeyConstraintViolation
+    status 500
   end
 end

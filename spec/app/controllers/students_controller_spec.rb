@@ -18,4 +18,14 @@ RSpec.describe '/students' do
     response = JSON.parse(last_response.body)
     expect(response.first[1][0]['codigo']).to eq subject_saved.id
   end
+
+  it 'create valid inscription' do
+    SubjectRepository.new.save(subject_saved)
+    post '/alumnos', '{"nombre_completo":"Juan Perez","codigo_materia":' + subject_saved.id.to_s + ',"username_alumno":"juanperez"}'
+    expect(last_response.status).to eq 201
+  end
+  it 'create inscription to a subject that does not exist' do
+    post '/alumnos', '{"nombre_completo":"Juan Perez","codigo_materia":"1001","username_alumno":"juanperez"}'
+    expect(last_response.status).to eq 500
+  end
 end

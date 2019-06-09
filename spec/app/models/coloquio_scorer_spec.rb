@@ -37,5 +37,11 @@ describe ColoquioScorer do
       expect(final_score.passed_course).to eq true
       expect(final_score.score).to eq 5
     end
+
+    it 'raises ColoquioScoreHasToBePresentAndUniqueError when score has 2 values' do
+      score = Score.new(id: 1, inscription_id: 2, scores: [5, 2], type_subject: 'coloquio')
+      expect { scorer.calculate_final_score(score) }
+        .to raise_error(ColoquioScoreHasToBePresentAndUniqueError)
+    end
   end
 end

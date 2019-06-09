@@ -10,6 +10,7 @@ RSpec.describe '/students' do
 
   before(:each) do
     SubjectRepository.new.delete_all
+    header 'API_TOKEN', ENV['HTTP_API_TOKEN']
   end
 
   it 'consult academic offer' do

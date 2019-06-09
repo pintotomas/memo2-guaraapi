@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe '/professors' do
+  
   let!(:subject_saved) do
     subject = Subject.new(name: 'Analisis 3',
                           professor: 'Sirne', id: 6201, quota: 9, type: 'coloquio',
@@ -15,6 +16,10 @@ RSpec.describe '/professors' do
     inscription
   end
 
+  before(:each) do 
+    header 'API_TOKEN', ENV['HTTP_API_TOKEN']
+  end
+
   after(:each) do
     ScoresRepository.new.delete_all
     SubjectRepository.new.delete_all
@@ -23,6 +28,7 @@ RSpec.describe '/professors' do
   describe 'assign score to test' do
     it 'assign score to test correctly' do
       InscriptionsRepository.new.save(inscription_to_save)
+
       params = { codigo_materia: subject_saved.id, notas: '1',
                  username_alumno: inscription_to_save.student_id }
       post '/calificar', params.to_json

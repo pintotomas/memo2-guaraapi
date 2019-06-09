@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe '/professors' do
-  
   let!(:subject_saved) do
     subject = Subject.new(name: 'Analisis 3',
                           professor: 'Sirne', id: 6201, quota: 9, type: 'coloquio',
@@ -16,7 +15,7 @@ RSpec.describe '/professors' do
     inscription
   end
 
-  before(:each) do 
+  before(:each) do
     header 'API_TOKEN', ENV['HTTP_API_TOKEN']
   end
 

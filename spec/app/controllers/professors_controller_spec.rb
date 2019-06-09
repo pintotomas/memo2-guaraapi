@@ -28,5 +28,12 @@ RSpec.describe '/professors' do
       post '/calificar', params.to_json
       expect(last_response.status).to eq 201
     end
+
+    it 'Assign a student s test score without registration' do
+      params = { codigo_materia: subject_saved.id, notas: '1',
+                 username_alumno: 'JuanPerez' }
+      post '/calificar', params.to_json
+      expect(last_response.status).to eq 500
+    end
   end
 end

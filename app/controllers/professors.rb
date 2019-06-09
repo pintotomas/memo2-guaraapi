@@ -17,11 +17,13 @@ GuaraApi::App.controllers :professors do
     inscription = InscriptionsRepository.new.find_by_student_and_subject_id(
       request_body['username_alumno'], request_body['codigo_materia']
     )
-    score = Score.new(inscription_id: inscription.id, scores: '[1]', type_subject: 'coloquio')
     if inscription.nil?
       status 500
       body 'El alumno no esta inscripto'
-    elsif score.valid?
+      return
+    end
+    score = Score.new(inscription_id: inscription.id, scores: '[1]', type_subject: 'coloquio')
+    if score.valid?
       status 201
       body 'Calificacion exitosa'
     else

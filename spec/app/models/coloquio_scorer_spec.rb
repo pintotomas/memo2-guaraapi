@@ -43,5 +43,11 @@ describe ColoquioScorer do
       expect { scorer.calculate_final_score(score) }
         .to raise_error(ColoquioScoreHasToBePresentAndUniqueError)
     end
+
+    it 'raises ColoquioScoreHasToBePresentAndUniqueError when score has 0 values' do
+      score = Score.new(id: 1, inscription_id: 2, scores: [], type_subject: 'coloquio')
+      expect { scorer.calculate_final_score(score) }
+        .to raise_error(ColoquioScoreHasToBePresentAndUniqueError)
+    end
   end
 end

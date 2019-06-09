@@ -41,5 +41,11 @@ describe ParcialesScorer do
       )
       expect(final_score.passed_course).to eq false
     end
+
+    it 'raises ParcialesMustHaveAtLeastOneScore when score has 0 values' do
+      score = Score.new(id: 1, inscription_id: 2, scores: [], type_subject: 'parciales')
+      expect { scorer.calculate_final_score(score) }
+        .to raise_error(ParcialesMustHaveAtLeastOneScore)
+    end
   end
 end

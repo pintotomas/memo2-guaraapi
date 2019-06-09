@@ -13,5 +13,33 @@ describe ParcialesScorer do
       expect(final_score.passed_course).to eq false
       expect(final_score.score).to eq 0
     end
+
+    it 'returns average of scores' do
+      final_score = scorer.calculate_final_score(
+        Score.new(id: 1, inscription_id: 2, scores: [5, 3], type_subject: 'parciales')
+      )
+      expect(final_score.score).to eq 4
+    end
+
+    it 'returns passed_course true when score is greater than 6' do
+      final_score = scorer.calculate_final_score(
+        Score.new(id: 1, inscription_id: 2, scores: [7, 7], type_subject: 'parciales')
+      )
+      expect(final_score.passed_course).to eq true
+    end
+
+    it 'returns passed_course true when score is equal to 6' do
+      final_score = scorer.calculate_final_score(
+        Score.new(id: 1, inscription_id: 2, scores: [6, 6], type_subject: 'parciales')
+      )
+      expect(final_score.passed_course).to eq true
+    end
+
+    it 'returns passed_course false when score is less than 6' do
+      final_score = scorer.calculate_final_score(
+        Score.new(id: 1, inscription_id: 2, scores: [6, 5], type_subject: 'parciales')
+      )
+      expect(final_score.passed_course).to eq false
+    end
   end
 end

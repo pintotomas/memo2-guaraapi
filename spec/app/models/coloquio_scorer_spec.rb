@@ -13,5 +13,29 @@ describe ColoquioScorer do
       expect(final_score.passed_course).to eq false
       expect(final_score.score).to eq 0
     end
+
+    it 'returns final score with passed_course false when score is less than 4' do
+      final_score = scorer.calculate_final_score(
+        Score.new(id: 1, inscription_id: 2, scores: [3], type_subject: 'coloquio')
+      )
+      expect(final_score.passed_course).to eq false
+      expect(final_score.score).to eq 3
+    end
+
+    it 'returns final score with passed_course true when score is equal to 4' do
+      final_score = scorer.calculate_final_score(
+        Score.new(id: 1, inscription_id: 2, scores: [4], type_subject: 'coloquio')
+      )
+      expect(final_score.passed_course).to eq true
+      expect(final_score.score).to eq 4
+    end
+
+    it 'returns final score with passed_course true when score is over 4' do
+      final_score = scorer.calculate_final_score(
+        Score.new(id: 1, inscription_id: 2, scores: [5], type_subject: 'coloquio')
+      )
+      expect(final_score.passed_course).to eq true
+      expect(final_score.score).to eq 5
+    end
   end
 end

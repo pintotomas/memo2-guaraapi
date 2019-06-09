@@ -1,23 +1,4 @@
 GuaraApi::App.controllers :professors do
-  # get :index, :map => '/foo/bar' do
-  #   session[:foo] = 'bar'
-  #   render 'index'
-  # end
-
-  # get :sample, :map => '/sample/url', :provides => [:any, :js] do
-  #   case content_type
-  #     when :js then ...
-  #     else ...
-  # end
-
-  # get :foo, :with => :id do
-  #   "Maps to url '/foo/#{params[:id]}'"
-  # end
-
-  # get '/example' do
-  #   'Hello world!'
-  # end
-
   post :materias, map: '/materias' do
     request_body = JSON.parse(request.body.read.to_s)
     @subject = get_subject_from_json(request_body)
@@ -28,5 +9,28 @@ GuaraApi::App.controllers :professors do
     else
       status 500
     end
+  end
+
+  post :calificar, map: '/calificar' do
+    content = request.body.read
+    request_body = JSON.parse(content.gsub('\"', '"'))
+    inscription = InscriptionsRepository.new.find_by_student_and_subject_id(
+      request_body['username_alumno'], request_body['codigo_materia']
+    )
+    if inscription.nil?
+      status 500
+      body 'El alumno no esta inscripto'
+      return
+    end
+    score = Score.new(inscription_id: inscription.id, scores: '[1]', type_subject: 'coloquio')
+    if score.valid?
+      status 201
+      body 'Calificacion exitosa'
+    else
+      status 500
+      body 'Fallo calificacion'
+    end
+  rescue Sequel::ForeignKeyConstraintViolation
+    status 500
   end
 end

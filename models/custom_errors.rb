@@ -1,5 +1,5 @@
 class ColoquioScoreHasToBePresentAndUniqueError < RuntimeError
 end
 
-class ParcialesMustHaveAtLeastOneScore < RuntimeError
+class ParcialesMustHaveExactlyTwoScores < RuntimeError
 end

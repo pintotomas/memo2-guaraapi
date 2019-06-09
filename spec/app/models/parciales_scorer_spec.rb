@@ -45,7 +45,19 @@ describe ParcialesScorer do
     it 'raises ParcialesMustHaveAtLeastOneScore when score has 0 values' do
       score = Score.new(id: 1, inscription_id: 2, scores: [], type_subject: 'parciales')
       expect { scorer.calculate_final_score(score) }
-        .to raise_error(ParcialesMustHaveAtLeastOneScore)
+        .to raise_error(ParcialesMustHaveExactlyTwoScores)
+    end
+
+    it 'raises ParcialesMustHaveAtLeastOneScore when score has 1 value' do
+      score = Score.new(id: 1, inscription_id: 2, scores: [7], type_subject: 'parciales')
+      expect { scorer.calculate_final_score(score) }
+        .to raise_error(ParcialesMustHaveExactlyTwoScores)
+    end
+
+    it 'raises ParcialesMustHaveAtLeastOneScore when score has more than 2 values' do
+      score = Score.new(id: 1, inscription_id: 2, scores: [7, 7, 8], type_subject: 'parciales')
+      expect { scorer.calculate_final_score(score) }
+        .to raise_error(ParcialesMustHaveExactlyTwoScores)
     end
   end
 end

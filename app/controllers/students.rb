@@ -18,6 +18,15 @@ GuaraApi::App.controllers :students do
   post :alumnos, map: '/alumnos' do
     content = request.body.read
     request_body = JSON.parse(content.gsub('\"', '"'))
+    inscribed = InscriptionsRepository.new.find_by_student_and_subject_id(
+      request_body['username_alumno'], request_body['codigo_materia']
+    )
+    if !inscribed.nil? && inscribed.in_progress
+      status 400
+      body 'Ya se encuentra inscripto'
+      return
+    end
+
     @inscription = get_inscription_from_json(request_body)
     if @inscription.valid?
       InscriptionsRepository.new.save(@inscription) # manejar inscribirse a materias inexistentes

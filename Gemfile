@@ -17,6 +17,7 @@ gem 'sequel'
 
 gem 'bcrypt'
 gem 'clockwork'
+gem 'dotenv'
 gem 'erubis', '~> 2.7.0'
 gem 'json'
 gem 'therubyracer'

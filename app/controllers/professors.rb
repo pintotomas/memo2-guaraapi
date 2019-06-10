@@ -1,4 +1,7 @@
 GuaraApi::App.controllers :professors do
+  before do
+    halt 401 unless valid_api_key?(request.env['HTTP_API_TOKEN'])
+  end
   post :materias, map: '/materias' do
     request_body = JSON.parse(request.body.read.to_s)
     @subject = get_subject_from_json(request_body)
@@ -12,24 +15,27 @@ GuaraApi::App.controllers :professors do
   end
 
   post :calificar, map: '/calificar' do
-    content = request.body.read
-    request_body = JSON.parse(content.gsub('\"', '"'))
+    request_body = JSON.parse(request.body.read.gsub('\"', '"'))
     inscription = InscriptionsRepository.new.find_by_student_and_subject_id(
       request_body['username_alumno'], request_body['codigo_materia']
     )
-    if inscription.nil?
-      status 500
+    if inscription.nil? || !inscription.in_progress
+      status 400
       body 'El alumno no esta inscripto'
-      return
-    end
-    score = Score.new(inscription_id: inscription.id, scores: '[1]', type_subject: 'coloquio')
-    if score.valid?
-      status 201
-      body 'Calificacion exitosa'
     else
-      status 500
-      body 'Fallo calificacion'
+      score = Score.new(inscription_id: inscription.id, scores: '[1]', type_subject: 'coloquio')
+      inscription.in_progress = false
+      InscriptionsRepository.new.save(inscription)
+      ScoresRepository.new.save(score)
+      if score.valid?
+        status 201
+        body 'Calificacion exitosa'
+      else
+        status 400
+        body 'Fallo la calificacion'
+      end
     end
+
   rescue Sequel::ForeignKeyConstraintViolation
     status 500
   end

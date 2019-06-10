@@ -1,6 +1,9 @@
 require 'json'
 
 GuaraApi::App.controllers :students do
+  before do
+    halt 401 unless valid_api_key?(request.env['HTTP_API_TOKEN'])
+  end
   get :materias, map: '/materias' do
     subjects_response = []
     subjects = SubjectRepository.new.all

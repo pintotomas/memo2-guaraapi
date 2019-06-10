@@ -42,5 +42,29 @@ describe TareasScorer do
       )
       expect(final_score.passed_course).to eq false
     end
+
+    it 'returns score equal 1 when failed 2 tasks' do
+      final_score = scorer.calculate_final_score(
+        Score.new(id: 1, inscription_id: 2, scores: [10, 10, 1, 1],
+                  type_subject: 'tareas')
+      )
+      expect(final_score.score).to eq 1
+    end
+
+    it 'returns passed_course false when average is greater than 6 but failed 2 tasks' do
+      final_score = scorer.calculate_final_score(
+        Score.new(id: 1, inscription_id: 2, scores: [10, 10, 10, 10, 10, 1, 1],
+                  type_subject: 'tareas')
+      )
+      expect(final_score.passed_course).to eq false
+    end
+
+    it 'returns score equal 1 when average is greater than 6 but failed 2 tasks' do
+      final_score = scorer.calculate_final_score(
+        Score.new(id: 1, inscription_id: 2, scores: [10, 10, 10, 10, 10, 1, 1],
+                  type_subject: 'tareas')
+      )
+      expect(final_score.score).to eq 1
+    end
   end
 end

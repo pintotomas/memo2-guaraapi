@@ -6,3 +6,6 @@ end
 
 class TareasMustHaveAtLeastOneScoreError < RuntimeError
 end
+
+class ScoreCanNotBeNilError < RuntimeError
+end

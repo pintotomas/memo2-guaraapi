@@ -14,7 +14,9 @@ class InscriptionsRepository < BaseRepository
       student_id: inscription.student_id,
       subject_id: inscription.subject_id,
       status: inscription.status,
-      final_grade: inscription.final_grade
+      final_grade: inscription.final_grade,
+      in_progress: inscription.in_progress
+
     }
   end
 end

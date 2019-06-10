@@ -19,5 +19,28 @@ describe TareasScorer do
       expect { scorer.calculate_final_score(score) }
         .to raise_error(TareasMustHaveAtLeastOneScoreError)
     end
+
+    it 'returns passed_course true when average is greater than 6' do
+      final_score = scorer.calculate_final_score(
+        Score.new(id: 1, inscription_id: 2, scores: [7, 7], type_subject: 'tareas')
+      )
+      expect(final_score.passed_course).to eq true
+      expect(final_score.score).to eq 7
+    end
+
+    it 'returns passed_course true when average is equal to 6' do
+      final_score = scorer.calculate_final_score(
+        Score.new(id: 1, inscription_id: 2, scores: [6, 6], type_subject: 'tareas')
+      )
+      expect(final_score.passed_course).to eq true
+      expect(final_score.score).to eq 6
+    end
+
+    it 'returns passed_course false when average is less than 6' do
+      final_score = scorer.calculate_final_score(
+        Score.new(id: 1, inscription_id: 2, scores: [6, 5], type_subject: 'tareas')
+      )
+      expect(final_score.passed_course).to eq false
+    end
   end
 end

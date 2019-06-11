@@ -12,16 +12,28 @@ describe InscriptionsRepository do
     subject_saved
   end
 
-  let!(:inscription_one) do
-    inscription = Inscription.new(id: 1,
-                                  student_id: 'Rob123', subject_id: 245, status: 'inscripto')
+  let!(:inscription_without_saved_subejct) do
+    inscription = Inscription.new(student_id: 'Rob123', subject_id: 245, status: 'inscripto')
     inscription
+  end
+
+  let!(:inscription_to_save) do
+    inscription = Inscription.new(student_id: 'Rob123',
+                                  subject_id: subject_one.id, status: 'inscripto')
+    inscription
+  end
+
+  it 'find my inscriptions' do
+    repository.save(inscription_to_save)
+    inscriptions = repository.find_by_student_and_in_progress(inscription_to_save.student_id)
+    expect(inscriptions.first.student_id).to eq inscription_to_save.student_id
+    expect(inscriptions.first.subject_id).to eq inscription_to_save.subject_id
   end
 
   describe 'find inscription by student and subject id' do
     # rubocop:disable LineLength
     it 'should raise foreign key constraint violation if subject doesnt exist in database' do
-      expect { repository.save(inscription_one) }.to raise_error Sequel::ForeignKeyConstraintViolation
+      expect { repository.save(inscription_without_saved_subejct) }.to raise_error Sequel::ForeignKeyConstraintViolation
     end
     # rubocop:enable LineLength
     it 'should save inscription correctly if the subject was saved before' do

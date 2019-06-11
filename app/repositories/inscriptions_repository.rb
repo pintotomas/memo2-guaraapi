@@ -7,6 +7,11 @@ class InscriptionsRepository < BaseRepository
     inscription.first
   end
 
+  def find_by_student_and_in_progress(alias_name)
+    inscriptions = load_collection dataset.where(student_id: alias_name, in_progress: true)
+    inscriptions
+  end
+
   protected
 
   def changeset(inscription)

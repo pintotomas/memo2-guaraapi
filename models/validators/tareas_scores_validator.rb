@@ -1,6 +1,6 @@
 class TareasScoresValidator
   def validate(score)
-    raise TareasMustHaveAtLeastOneScoreError if
-    score.scores.empty?
+    raise TareasMustHaveAtLeastOneScoreError unless
+    score.scores.length == 1
   end
 end

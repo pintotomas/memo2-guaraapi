@@ -7,6 +7,7 @@ describe Inscription do
     it { is_expected.to respond_to(:subject_id) }
     it { is_expected.to respond_to(:status) }
     it { is_expected.to respond_to(:final_grade) }
+    it { is_expected.to respond_to(:in_progress) }
   end
 
   describe 'status' do

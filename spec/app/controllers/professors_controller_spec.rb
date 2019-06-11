@@ -11,8 +11,15 @@ RSpec.describe '/professors' do
 
   let!(:inscription_to_save) do
     inscription = Inscription.new(id: 1, student_id: 'Rob123',
-                                  subject_id: subject_saved.id, status: 'inscripto')
+                                  subject_id: subject_saved.id, status: Inscription::INSCRIBED)
     inscription
+  end
+
+  let!(:request_to_asign_score) do
+    InscriptionsRepository.new.save(inscription_to_save)
+    params = { codigo_materia: subject_saved.id, notas: '1',
+               username_alumno: inscription_to_save.student_id }
+    params
   end
 
   before(:each) do
@@ -26,11 +33,7 @@ RSpec.describe '/professors' do
 
   describe 'assign score to test' do
     it 'assign score to test correctly' do
-      InscriptionsRepository.new.save(inscription_to_save)
-
-      params = { codigo_materia: subject_saved.id, notas: [1],
-                 username_alumno: inscription_to_save.student_id }
-      post '/calificar', params.to_json
+      post '/calificar', request_to_asign_score.to_json
       expect(last_response.status).to eq 201
     end
 
@@ -38,7 +41,15 @@ RSpec.describe '/professors' do
       params = { codigo_materia: subject_saved.id, notas: '1',
                  username_alumno: 'JuanPerez' }
       post '/calificar', params.to_json
-      expect(last_response.status).to eq 500
+      expect(last_response.status).to eq 400
+      expect(last_response.body).to eq 'El alumno no esta inscripto'
+    end
+
+    it 'unsubscribe after a asign score to test' do
+      post '/calificar', request_to_asign_score.to_json
+      post '/calificar', request_to_asign_score.to_json
+      expect(last_response.status).to eq 400
+      expect(last_response.body).to eq 'El alumno no esta inscripto'
     end
   end
 end

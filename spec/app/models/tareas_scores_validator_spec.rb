@@ -12,4 +12,9 @@ describe TareasScoresValidator do
     expect { tareasScoresValidator.validate(score) }
       .not_to raise_error(TareasMustHaveAtLeastOneScoreError)
   end
+  it 'shouldnt raise error if two scores are scored in tareas' do
+    score = Score.new(id: 1, inscription_id: 2, scores: [1, 2], type_subject: 'parciales')
+    expect { tareasScoresValidator.validate(score) }
+      .not_to raise_error(TareasMustHaveAtLeastOneScoreError)
+  end
 end

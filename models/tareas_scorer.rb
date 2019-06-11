@@ -1,6 +1,5 @@
 class TareasScorer
   TAREAS_SUBJECT_TYPE_NAME_CONST = 'tareas'.freeze
-  MINIMUM_SCORES_REQUIRED_LENGTH_CONST = 1
   MINIMUM_PASS_VALUE_CONST = 6
   MINIMUM_INDIVIDUAL_TASK_VALUE_CONST = 4
   MAXIMUM_FAILED_TASKS_VALUE_CONST = 2
@@ -8,9 +7,8 @@ class TareasScorer
 
   def calculate_final_score(score)
     return FinalScore.new if score.type_subject != TAREAS_SUBJECT_TYPE_NAME_CONST
-    raise TareasMustHaveAtLeastOneScoreError unless
-    score.scores.length >= MINIMUM_SCORES_REQUIRED_LENGTH_CONST
 
+    TareasScoresValidator.new.validate(score)
     score_sum = 0
     failed_tasks = 0
     score.scores.each do |s|

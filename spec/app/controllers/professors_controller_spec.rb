@@ -28,7 +28,7 @@ RSpec.describe '/professors' do
     it 'assign score to test correctly' do
       InscriptionsRepository.new.save(inscription_to_save)
 
-      params = { codigo_materia: subject_saved.id, notas: '1',
+      params = { codigo_materia: subject_saved.id, notas: [1],
                  username_alumno: inscription_to_save.student_id }
       post '/calificar', params.to_json
       expect(last_response.status).to eq 201

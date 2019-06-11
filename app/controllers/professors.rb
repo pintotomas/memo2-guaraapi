@@ -25,8 +25,12 @@ GuaraApi::App.controllers :professors do
       body 'El alumno no esta inscripto'
       return
     end
-    score = Score.new(inscription_id: inscription.id, scores: '[1]', type_subject: 'coloquio')
+    score = Score.new(inscription_id: inscription.id, scores: [1], type_subject: 'coloquio')
     if score.valid?
+      final_score = Scorer.new.calculate_final_score(score)
+      inscription.status = inscription.approval_status(final_score.passed_course)
+      inscription.final_grade = final_score.score
+      InscriptionsRepository.new.save(inscription)
       status 201
       body 'Calificacion exitosa'
     else

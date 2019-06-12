@@ -19,6 +19,8 @@ GuaraApi::App.controllers :health do
 
   post :reset, map: '/reset' do
     SubjectRepository.new.delete_all
+    ScoresRepository.new.delete_all
+    InscriptionsRepository.new.delete_all
     'ok'
   end
 end

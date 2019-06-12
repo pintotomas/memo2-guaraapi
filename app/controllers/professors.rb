@@ -24,7 +24,8 @@ GuaraApi::App.controllers :professors do
       status 400
       body 'El alumno no esta inscripto'
     else
-      score = Score.new(inscription_id: inscription.id, scores: request_body['notas'],
+      grades = JSON.parse(request_body['notas'])
+      score = Score.new(inscription_id: inscription.id, scores: grades,
                         type_subject: subject_type)
       inscription.score(score)
       InscriptionsRepository.new.save(inscription)

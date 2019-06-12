@@ -19,7 +19,8 @@ GuaraApi::App.controllers :students do
   end
 
   get :miEstado, map: '/miEstado' do
-    request_body = JSON.parse(request.body.read.gsub('\"', '"'))
+    # request_body = JSON.parse(request.body.read.gsub('\"', '"'))
+    request_body = JSON.parse(request.params.keys[0].gsub('\"', '"'))
     alias_name = request_body['username_alumno']
     subject_id = request_body['codigo_materia']
     inscribed = InscriptionsRepository.new.find_by_student_and_subject_id(alias_name, subject_id)

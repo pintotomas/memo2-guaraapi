@@ -23,13 +23,6 @@ describe InscriptionsRepository do
     inscription
   end
 
-  it 'find my inscriptions' do
-    repository.save(inscription_to_save)
-    inscriptions = repository.find_by_student_and_in_progress(inscription_to_save.student_id)
-    expect(inscriptions.first.student_id).to eq inscription_to_save.student_id
-    expect(inscriptions.first.subject_id).to eq inscription_to_save.subject_id
-  end
-
   describe 'find inscription by student and subject id' do
     # rubocop:disable LineLength
     it 'should raise foreign key constraint violation if subject doesnt exist in database' do

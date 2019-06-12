@@ -18,9 +18,18 @@ GuaraApi::App.controllers :students do
     { 'oferta' => subjects_response }.to_json
   end
 
+  get :miEstado, map: '/miEstado' do
+    request_body = JSON.parse(request.body.read.gsub('\"', '"'))
+    alias_name = request_body['username_alumno']
+    subject_id = request_body['codigo_materia']
+    inscribed = InscriptionsRepository.new.find_by_student_and_subject_id(alias_name, subject_id)
+    status 201
+    body inscribed.status
+    return
+  end
+
   post :alumnos, map: '/alumnos' do
-    content = request.body.read
-    request_body = JSON.parse(content.gsub('\"', '"'))
+    request_body = JSON.parse(request.body.read.gsub('\"', '"'))
     inscribed = InscriptionsRepository.new.find_by_student_and_subject_id(
       request_body['username_alumno'], request_body['codigo_materia']
     )

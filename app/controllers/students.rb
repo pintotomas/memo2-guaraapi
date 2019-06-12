@@ -18,16 +18,14 @@ GuaraApi::App.controllers :students do
     { 'oferta' => subjects_response }.to_json
   end
 
-  get :miEstado, map: '/miEstado' do
-    request_body = JSON.parse(request.params.keys[0].gsub('\"', '"'))
-    alias_name = request_body['username_alumno']
-    subject_id = request_body['codigo_materia']
+  get :estado, map: '/materias/estado' do
+    alias_name = request.params['usernameAlumno']
+    subject_id = request.params['codigoMateria']
     inscription = InscriptionsRepository.new.find_by_student_and_subject_id(alias_name, subject_id)
-    inscription_status = 'No inscripto'
+    inscription_status = 'NO INSCRIPTO'
     inscription_status = inscription.status if inscription
-    status 201
-    body inscription_status
-    return
+    status 200
+    { 'estado' => inscription_status }.to_json
   end
 
   post :alumnos, map: '/alumnos' do

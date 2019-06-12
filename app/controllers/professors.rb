@@ -19,12 +19,15 @@ GuaraApi::App.controllers :professors do
     inscription = InscriptionsRepository.new.find_by_student_and_subject_id(
       request_body['username_alumno'], request_body['codigo_materia']
     )
+    subject_type = SubjectRepository.new.find(request_body['codigo_materia']).type
     if inscription.nil? || !inscription.in_progress
       status 400
       body 'El alumno no esta inscripto'
     else
-      score = Score.new(inscription_id: inscription.id, scores: '[1]', type_subject: 'coloquio')
-      inscription.in_progress = false
+      grades = JSON.parse(request_body['notas'])
+      score = Score.new(inscription_id: inscription.id, scores: grades,
+                        type_subject: subject_type)
+      inscription.score(score)
       InscriptionsRepository.new.save(inscription)
       ScoresRepository.new.save(score)
       if score.valid?

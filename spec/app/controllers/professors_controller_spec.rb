@@ -17,7 +17,7 @@ RSpec.describe '/professors' do
 
   let!(:request_to_asign_score) do
     InscriptionsRepository.new.save(inscription_to_save)
-    params = { codigo_materia: subject_saved.id, notas: '1',
+    params = { codigo_materia: subject_saved.id, notas: '[1]',
                username_alumno: inscription_to_save.student_id }
     params
   end
@@ -38,7 +38,7 @@ RSpec.describe '/professors' do
     end
 
     it 'Assign a student s test score without registration' do
-      params = { codigo_materia: subject_saved.id, notas: '1',
+      params = { codigo_materia: subject_saved.id, notas: '[1]',
                  username_alumno: 'JuanPerez' }
       post '/calificar', params.to_json
       expect(last_response.status).to eq 400

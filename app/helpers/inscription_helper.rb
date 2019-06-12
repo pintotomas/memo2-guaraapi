@@ -6,7 +6,7 @@ module GuaraApi
       def get_inscription_from_json(request_body)
         Inscription.new(subject_id: request_body['codigo_materia'],
                         student_id: request_body['username_alumno'],
-                        status: 'Inscripto')
+                        status: Inscription::INSCRIBED)
       end
     end
 

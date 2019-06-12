@@ -24,4 +24,11 @@ class Inscription
                 DISAPPROVED_CONST
               end
   end
+
+  def score(score)
+    @in_progress = false
+    final_score = Scorer.new.calculate_final_score(score)
+    approval_status(final_score.passed_course)
+    @final_grade = final_score.score
+  end
 end

@@ -24,9 +24,7 @@ GuaraApi::App.controllers :students do
     subject_id = request_body['codigo_materia']
     inscription = InscriptionsRepository.new.find_by_student_and_subject_id(alias_name, subject_id)
     inscription_status = 'No inscripto'
-    if inscription
-      inscription_status = inscription.status
-    end
+    inscription_status = inscription.status if inscription
     status 201
     body inscription_status
     return

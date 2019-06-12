@@ -23,9 +23,10 @@ GuaraApi::App.controllers :students do
     subject_id = request.params['codigoMateria']
     inscription = InscriptionsRepository.new.find_by_student_and_subject_id(alias_name, subject_id)
     inscription_status = 'NO INSCRIPTO'
+    final_grade = nil || inscription.final_grade
     inscription_status = inscription.status if inscription
     status 200
-    { 'estado' => inscription_status }.to_json
+    { 'estado' => inscription_status, 'nota_final' => final_grade }.to_json
   end
 
   post :alumnos, map: '/alumnos' do

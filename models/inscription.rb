@@ -3,7 +3,7 @@ class Inscription
   DISAPPROVED_CONST = 'DESAPROBADO'.freeze
   include ActiveModel::Validations
 
-  INSCRIBED = 'Inscripto'.freeze
+  INSCRIBED = 'EN_CURSO'.freeze
 
   attr_accessor :id, :student_id, :subject_id, :status, :final_grade,
                 :updated_on, :created_on, :quota, :in_progress

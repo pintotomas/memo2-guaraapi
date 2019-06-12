@@ -20,11 +20,9 @@ class TareasScorer
   end
 
   def get_final_score(score_sum, number_of_failed_tasks, number_of_tasks)
-    if number_of_failed_tasks >= MAXIMUM_FAILED_TASKS_VALUE_CONST
-      return FinalScore.new(score: DEFAULT_FAILED_COURSE_SCORE, passed_course: false)
-    end
+    return FinalScore.new(score: DEFAULT_FAILED_COURSE_SCORE, passed_course: false) if number_of_failed_tasks >= MAXIMUM_FAILED_TASKS_VALUE_CONST
 
-    final_score = score_sum / number_of_tasks
+    final_score = score_sum.to_f / number_of_tasks
     FinalScore.new(score: final_score, passed_course: final_score >= MINIMUM_PASS_VALUE_CONST)
   end
 end

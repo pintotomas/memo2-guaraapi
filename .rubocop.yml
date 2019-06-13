@@ -30,3 +30,5 @@ RSpec/LetSetup:
   Enabled: False
 RSpec/ExampleLength:
   Max: 6
+Metrics/BlockLength:
+  Max: 200

@@ -25,11 +25,11 @@ GuaraApi::App.controllers :professors do
       body 'El alumno no esta inscripto'
     else
       body_grades = request_body['notas']
-      if body_grades.scan(/\D/).empty?
-        grades = [body_grades.to_i]
-      else
-        grades = JSON.parse(request_body['notas'])
-      end
+      grades = if body_grades.scan(/\D/).empty?
+                 [body_grades.to_i]
+               else
+                 JSON.parse(request_body['notas'])
+               end
       score = Score.new(inscription_id: inscription.id, scores: grades,
                         type_subject: subject_type)
       inscription.score(score)

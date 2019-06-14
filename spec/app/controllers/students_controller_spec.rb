@@ -39,6 +39,15 @@ RSpec.describe '/students' do
     expect(response.first[1][0]['codigo']).to eq subject_algebra.id
   end
 
+  it 'consult subjects in which I inscribed' do
+    SubjectRepository.new.save(subject_chemical)
+    InscriptionsRepository.new.save(inscription_chemical)
+    params = { "usernameAlumno": inscription_chemical.student_id, "codigoMateria": subject_chemical.id }
+    get '/misinscripciones', params
+    response = JSON.parse(last_response.body)
+    expect(response.first[1][0]['codigo']).to eq subject_chemical.id
+  end
+
   it 'consult my status in a subject' do
     SubjectRepository.new.save(subject_chemical)
     InscriptionsRepository.new.save(inscription_chemical)

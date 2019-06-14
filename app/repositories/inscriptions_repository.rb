@@ -7,6 +7,12 @@ class InscriptionsRepository < BaseRepository
     inscription.first
   end
 
+  def my_inscribed_inscriptions(alias_name)
+    inscriptions = dataset.where(student_id: alias_name,
+                                 in_progress: true).join(:subjects, id: :subject_id).select(:subject_id, :name, :professor).all
+    inscriptions
+  end
+
   protected
 
   def changeset(inscription)

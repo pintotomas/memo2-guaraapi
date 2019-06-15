@@ -18,6 +18,7 @@ GuaraApi::App.controllers :health do
   end
 
   post :reset, map: '/reset' do
+    halt 403
     ScoresRepository.new.delete_all
     InscriptionsRepository.new.delete_all
     SubjectRepository.new.delete_all

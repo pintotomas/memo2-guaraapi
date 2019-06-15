@@ -6,4 +6,9 @@ RSpec.describe 'health' do
     post '/reset'
     expect(last_response.status).to eq 403 # forbidden
   end
+  it '/reset should not be forbidden if not in production' do
+    header 'RACK_ENV', 'desarrollo'
+    post '/reset'
+    expect(last_response.status).to eq 200 # forbidden
+  end
 end

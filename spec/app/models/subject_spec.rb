@@ -54,5 +54,13 @@ describe Subject do
                                     professor: 'Sirne', id: '1234', type: 'coloquio')
       expect(subject.valid?).to eq false
     end
+
+    it 'should be false when subject id is greather than 9999' do
+      subject = described_class.new(name: 'Analisis 2', requires_lab: false,
+                                    professor: 'Sirne', id: '10000', quota: '3',
+                                    requires_proyector: true, type: 'coloquio')
+      expect(subject.valid?).to eq false
+      expect(subject.errors.messages[:id][0]).to eq Subject::INVALID_SUBJECT_ID
+    end
   end
 end

@@ -1,11 +1,17 @@
 class Subject
   include ActiveModel::Validations
 
+  INVALID_SUBJECT_ID = 'CODIGO_ERRONEO'.freeze
+  MAX_SUBJECTS = 9999
+
   attr_accessor :id, :name, :professor, :type, :requires_proyector, :requires_lab,
                 :updated_on, :created_on, :quota
 
   validates :name, :professor, :id, :quota, :type, presence: true
   validates :requires_lab, :requires_proyector, inclusion: [true, false]
+
+  validates :id, numericality: { only_integer: true, less_than_or_equal_to:
+      MAX_SUBJECTS, message: INVALID_SUBJECT_ID }
 
   def initialize(data = {})
     @id = data[:id]

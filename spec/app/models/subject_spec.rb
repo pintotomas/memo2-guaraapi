@@ -24,6 +24,7 @@ describe Subject do
                                     professor: 'Sirne', id: '6201', quota: '3',
                                     requires_proyector: true, type: 'test')
       expect(subject.valid?).to eq false
+      expect(subject.errors.messages.values[0][0]).to eq 'MODALIDAD_INVALIDA'
     end
 
     it 'should be false when professor is blank' do

@@ -10,7 +10,8 @@ GuaraApi::App.controllers :professors do
       status 201
       { "resultado": 'materia_creada' }.to_json
     else
-      status 500
+      status 400
+      { "error": @subject.errors.messages.values[0][0] }.to_json
     end
   end
 

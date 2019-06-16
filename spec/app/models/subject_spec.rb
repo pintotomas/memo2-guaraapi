@@ -19,6 +19,13 @@ describe Subject do
       expect(subject.valid?).to eq true
     end
 
+    it 'should be false when type is wrong' do
+      subject = described_class.new(name: 'Analisis 2', requires_lab: false,
+                                    professor: 'Sirne', id: '6201', quota: '3',
+                                    requires_proyector: true, type: 'test')
+      expect(subject.valid?).to eq false
+    end
+
     it 'should be false when professor is blank' do
       subject = described_class.new(name: 'Analisis 2',
                                     professor: '', id: '6201')

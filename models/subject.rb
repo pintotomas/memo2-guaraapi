@@ -13,7 +13,7 @@ class Subject
   validates :id, numericality: { only_integer: true, less_than_or_equal_to:
       MAX_SUBJECTS, message: INVALID_SUBJECT_ID }
 
-  validates :type, inclusion: { in: ["coloquio", "tareas", "parciales"]}
+  validates :type, inclusion: { in: %w[coloquio tareas parciales] }
 
   def initialize(data = {})
     @id = data[:id]

@@ -1,14 +1,16 @@
 require 'spec_helper'
 
-# describe 'HealthController' do
-#  it 'should check database and return ok' do
-#    expect(Ping).to receive(:create).and_return(Ping.new)
-#    get '/health'
-#    expect(last_response).to be_ok
-#  end
-#
-#  it 'should include version' do
-#    get '/health/version'
-#    expect(last_response.body.include?(Version.current)).to eq(true)
-#  end
-# end
+RSpec.describe 'health' do
+  # Este test no tiene sentido probarlo en el ambiente de desarrollo
+  # se puede probar reemplazando el ENV del endpoint reset en health por env y activando el test
+  #  it '/reset should be forbidden during production' do
+  #    header 'RACK_ENV', 'production'
+  #    post '/reset'
+  #    expect(last_response.status).to eq 403 # forbidden
+  #  end
+  it '/reset should not be forbidden if not in production' do
+    header 'RACK_ENV', 'desarrollo'
+    post '/reset'
+    expect(last_response.status).to eq 200 # forbidden
+  end
+end

@@ -30,7 +30,7 @@ GuaraApi::App.controllers :students do
     { 'estado' => inscription_status, 'nota_final' => final_grade }.to_json
   end
 
-  get :estado, map: '/misinscripciones' do
+  get :estado, map: '/inscripciones' do
     alias_name = request.params['usernameAlumno']
     inscribed_subjects = []
     subjects = InscriptionsRepository.new.my_inscribed_inscriptions(alias_name)
@@ -42,7 +42,7 @@ GuaraApi::App.controllers :students do
       inscribed_subjects.push(subject_response)
     end
     status 200
-    { 'oferta' => inscribed_subjects }.to_json
+    { 'inscripciones' => inscribed_subjects }.to_json
   end
 
   post :alumnos, map: '/alumnos' do

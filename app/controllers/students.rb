@@ -42,7 +42,7 @@ GuaraApi::App.controllers :students do
       inscribed_subjects.push(subject_response)
     end
     status 200
-    { 'inscripciones  ' => inscribed_subjects }.to_json
+    { 'inscripciones' => inscribed_subjects }.to_json
   end
 
   post :alumnos, map: '/alumnos' do

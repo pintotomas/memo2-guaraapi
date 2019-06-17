@@ -14,6 +14,6 @@ class Score
   private
 
   def score_numbers
-    errors.add(:scores, INVALID_SCORE_CONST) if scores.nil?
+    errors.add(:scores, INVALID_SCORE_CONST) if scores.nil? || scores.empty?
   end
 end

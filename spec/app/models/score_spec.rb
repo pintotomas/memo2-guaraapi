@@ -14,8 +14,13 @@ describe Score do
       expect(score.valid?).to eq false
     end
 
-    it 'should be false when there is no score param' do
+    it 'should be false when there is no scores param' do
       score = described_class.new(id: 1, inscription_id: 2, type_subject: 'parciales')
+      expect(score.valid?).to eq false
+    end
+
+    it 'should be false no scores is empty' do
+      score = described_class.new(id: 1, inscription_id: 2, scores: [], type_subject: 'parciales')
       expect(score.valid?).to eq false
     end
   end

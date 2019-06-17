@@ -58,7 +58,7 @@ RSpec.describe '/professors' do
   describe 'assign score to test' do
     it 'assign score to test correctly' do
       post '/calificar', request_to_asign_score.to_json
-      expect(last_response.status).to eq 201
+      expect(last_response.status).to eq 200
     end
 
     it 'Assign a student s test score without registration' do

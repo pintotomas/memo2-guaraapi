@@ -40,8 +40,8 @@ GuaraApi::App.controllers :professors do
       InscriptionsRepository.new.save(inscription)
       ScoresRepository.new.save(score)
       if score.valid?
-        status 201
-        body 'Calificacion exitosa'
+        status 200
+        { "resultado": 'notas_creadas' }.to_json
       else
         status 400
         body 'Fallo la calificacion'

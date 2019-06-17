@@ -7,6 +7,10 @@ class SubjectRepository < BaseRepository
     subject_by_name.first
   end
 
+  def insert_subject(record)
+    insert(record)
+  end
+
   protected
 
   def changeset(subject)

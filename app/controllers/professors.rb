@@ -5,7 +5,7 @@ GuaraApi::App.controllers :professors do
   post :materias, map: '/materias' do
     request_body = JSON.parse(request.body.read.to_s)
     @subject = get_subject_from_json(request_body)
-    SubjectRepository.new.save(@subject)
+    SubjectRepository.new.insert_subject(@subject)
     if @subject.valid?
       status 201
       { "resultado": 'materia_creada' }.to_json
@@ -13,6 +13,9 @@ GuaraApi::App.controllers :professors do
       status 400
       { "error": @subject.errors.messages.values[0][0] }.to_json
     end
+  rescue Sequel::UniqueConstraintViolation
+    status 400
+    { "error": 'MATERIA_DUPLICADA' }.to_json
   end
 
   post :calificar, map: '/calificar' do

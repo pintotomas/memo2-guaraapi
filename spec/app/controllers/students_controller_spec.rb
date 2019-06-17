@@ -80,7 +80,8 @@ RSpec.describe '/students' do
     post '/alumnos', '{"nombre_completo":"Juan Perez","codigo_materia":' + subject_algebra.id.to_s + ',"username_alumno":"juanperez"}'
     post '/alumnos', '{"nombre_completo":"Juan Perez","codigo_materia":' + subject_algebra.id.to_s + ',"username_alumno":"juanperez"}'
     expect(last_response.status).to eq 400
-    expect(last_response.body).to eq 'Ya se encuentra inscripto'
+    response = JSON.parse(last_response.body)
+    expect(response['error']).to eq Inscription::DUPLICATE_INSCRIPTION
   end
 
   it 'create inscription to a subject that does not exist' do

@@ -72,7 +72,9 @@ RSpec.describe '/students' do
   it 'create valid inscription' do
     SubjectRepository.new.save(subject_algebra)
     post '/alumnos', '{"nombre_completo":"Juan Perez","codigo_materia":' + subject_algebra.id.to_s + ',"username_alumno":"juanperez"}'
+    response = JSON.parse(last_response.body)
     expect(last_response.status).to eq 201
+    expect(response['resultado']).to eq Inscription::SUCCESSFUL_INSCRIPTION
   end
 
   it 'create inscription and the student already was inscribed' do
@@ -80,7 +82,8 @@ RSpec.describe '/students' do
     post '/alumnos', '{"nombre_completo":"Juan Perez","codigo_materia":' + subject_algebra.id.to_s + ',"username_alumno":"juanperez"}'
     post '/alumnos', '{"nombre_completo":"Juan Perez","codigo_materia":' + subject_algebra.id.to_s + ',"username_alumno":"juanperez"}'
     expect(last_response.status).to eq 400
-    expect(last_response.body).to eq 'Ya se encuentra inscripto'
+    response = JSON.parse(last_response.body)
+    expect(response['error']).to eq Inscription::DUPLICATE_INSCRIPTION
   end
 
   it 'create inscription to a subject that does not exist' do

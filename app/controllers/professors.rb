@@ -1,4 +1,7 @@
 GuaraApi::App.controllers :professors do
+  UNIQUE_VIOLATION_ERROR_CONST = 'MATERIA_DUPLICADA'.freeze
+  SUCCESSFULLY_SCORED_CONST = 'notas_creadas'.freeze
+  CREATED_SUBJECT_MSG_CONST = 'MATERIA_CREADA'.freeze
   before do
     halt 401 unless valid_api_key?(request.env['HTTP_API_TOKEN'])
   end
@@ -8,14 +11,14 @@ GuaraApi::App.controllers :professors do
     SubjectRepository.new.insert_subject(@subject)
     if @subject.valid?
       status 201
-      { "resultado": 'MATERIA_CREADA' }.to_json
+      { "resultado": CREATED_SUBJECT_MSG_CONST }.to_json
     else
       status 400
       { "error": @subject.errors.messages.values[0][0] }.to_json
     end
   rescue Sequel::UniqueConstraintViolation
     status 400
-    { "error": 'MATERIA_DUPLICADA' }.to_json
+    { "error": UNIQUE_VIOLATION_ERROR_CONST }.to_json
   end
 
   post :calificar, map: '/calificar' do
@@ -41,7 +44,7 @@ GuaraApi::App.controllers :professors do
       ScoresRepository.new.save(score)
       if score.valid?
         status 200
-        { "resultado": 'notas_creadas' }.to_json
+        { "resultado": SUCCESSFULLY_SCORED_CONST }.to_json
       else
         status 400
         body 'Fallo la calificacion'

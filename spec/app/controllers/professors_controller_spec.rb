@@ -31,6 +31,15 @@ RSpec.describe '/professors' do
     SubjectRepository.new.delete_all
   end
 
+  describe 'create a subject' do
+    it 'create a subject with invalid type' do
+      post '/materias', '{"codigo":1000,"docente":"Roberto","nombreMateria":"Algo I","modalidad":"invalida","cupo":25,"laboratorio":true,"proyector":false }'
+      message = JSON.parse(last_response.body)['error']
+      expect(last_response.status).to eq 400
+      expect(message).to eq 'MODALIDAD_INVALIDA'
+    end
+  end
+
   describe 'assign score to test' do
     it 'assign score to test correctly' do
       post '/calificar', request_to_asign_score.to_json

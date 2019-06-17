@@ -6,7 +6,8 @@ GuaraApi::App.controllers :students do
   end
   get :materias, map: '/materias' do
     subjects_response = []
-    subjects = SubjectRepository.new.all
+    alias_name = request.params['usernameAlumno']
+    subjects = InscriptionsRepository.new.inscribed_subjects_not_approbed(alias_name)
     subjects.each do |subject|
       subject_response =
         { codigo: subject[:id],

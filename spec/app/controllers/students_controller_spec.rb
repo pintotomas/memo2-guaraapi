@@ -34,7 +34,8 @@ RSpec.describe '/students' do
 
   it 'consult academic offer' do
     SubjectRepository.new.save(subject_algebra)
-    get '/materias'
+    params = { "usernameAlumno": 'JuanPerez' }
+    get '/materias', params
     response = JSON.parse(last_response.body)
     expect(response.first[1][0]['codigo']).to eq subject_algebra.id
   end

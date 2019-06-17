@@ -72,7 +72,9 @@ RSpec.describe '/students' do
   it 'create valid inscription' do
     SubjectRepository.new.save(subject_algebra)
     post '/alumnos', '{"nombre_completo":"Juan Perez","codigo_materia":' + subject_algebra.id.to_s + ',"username_alumno":"juanperez"}'
+    response = JSON.parse(last_response.body)
     expect(last_response.status).to eq 201
+    expect(response['resultado']).to eq Inscription::SUCCESSFUL_INSCRIPTION
   end
 
   it 'create inscription and the student already was inscribed' do

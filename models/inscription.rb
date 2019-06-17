@@ -2,6 +2,7 @@ class Inscription
   APPROVED_CONST = 'APROBADO'.freeze
   DISAPPROVED_CONST = 'DESAPROBADO'.freeze
   DUPLICATE_INSCRIPTION = 'INSCRIPCION_DUPLICADA'.freeze
+  SUCCESSFUL_INSCRIPTION = 'INSCRIPCION_CREADA'.freeze
 
   include ActiveModel::Validations
 

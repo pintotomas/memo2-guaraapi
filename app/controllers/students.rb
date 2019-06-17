@@ -59,7 +59,7 @@ GuaraApi::App.controllers :students do
       if @inscription.valid?
         InscriptionsRepository.new.save(@inscription) # manejar inscribirse a materias inexistentes
         status 201
-        body 'Inscripción exitosa'
+        { 'inscripcion' => 'Inscripción exitosa' }.to_json
       else
         status 500
       end

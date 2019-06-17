@@ -48,5 +48,15 @@ describe Score do
       score = described_class.new(id: 1, inscription_id: 2, scores: [1, -1], type_subject: 'parciales')
       expect(score.valid?).to eq false
     end
+
+    it 'should be false false when a score is not an array' do
+      score = described_class.new(id: 1, inscription_id: 2, scores: 1, type_subject: 'parciales')
+      expect(score.valid?).to eq false
+    end
+
+    it 'should be false false when a score is a word' do
+      score = described_class.new(id: 1, inscription_id: 2, scores: 'falafel', type_subject: 'parciales')
+      expect(score.valid?).to eq false
+    end
   end
 end

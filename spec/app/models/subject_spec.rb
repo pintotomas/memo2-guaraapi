@@ -34,9 +34,11 @@ describe Subject do
     end
 
     it 'should be false when name is blank' do
-      subject = described_class.new(name: '',
-                                    professor: 'Sirne', id: '6201')
+      subject = described_class.new(name: '  ', requires_lab: false,
+                                    professor: 'Sirne', id: '6201', quota: '3',
+                                    requires_proyector: true, type: 'coloquio')
       expect(subject.valid?).to eq false
+      expect(subject.errors.messages.values[0][0]).to eq Subject::MANDATORY_NAME
     end
 
     it 'should be false when id is blank' do

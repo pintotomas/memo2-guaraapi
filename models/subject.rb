@@ -10,11 +10,13 @@ class Subject
   attr_accessor :id, :name, :professor, :type, :requires_proyector, :requires_lab,
                 :updated_on, :created_on, :quota
 
-  validates :name, :professor, :id, :quota, :type, presence: true
+  validates :name, :professor, :quota, :type, presence: true
   validates :requires_lab, :requires_proyector, inclusion: [true, false]
 
   validates :id, numericality: { only_integer: true, less_than_or_equal_to:
       MAX_SUBJECTS, message: INVALID_SUBJECT_ID }
+
+  validates :id, presence: { message: INVALID_SUBJECT_ID }
 
   validates :type, inclusion: { in: %w[coloquio tareas parciales], message: INVALID_TYPE_CONST }
 

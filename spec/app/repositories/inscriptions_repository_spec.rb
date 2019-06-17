@@ -69,5 +69,13 @@ describe InscriptionsRepository do
       subejcts = repository.inscribed_subjects_not_approbed(inscription_to_save_one.student_id)
       expect(subejcts.size).to eq 1
     end
+
+    it 'there are two subjects but I am not subcrit to any' do
+      subject_one
+      subject_two
+      byebug
+      subejcts = repository.inscribed_subjects_not_approbed('Marcos')
+      expect(subejcts.size).to eq 2
+    end
   end
 end

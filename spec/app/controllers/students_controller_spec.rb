@@ -28,6 +28,8 @@ RSpec.describe '/students' do
   end
 
   before(:each) do
+    ScoresRepository.new.delete_all
+    InscriptionsRepository.new.delete_all
     SubjectRepository.new.delete_all
     header 'API_TOKEN', ENV['HTTP_API_TOKEN']
   end

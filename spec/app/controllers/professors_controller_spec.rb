@@ -38,6 +38,21 @@ RSpec.describe '/professors' do
       expect(last_response.status).to eq 400
       expect(message).to eq 'MODALIDAD_INVALIDA'
     end
+
+    it 'create two subjects with same code' do
+      post '/materias', '{"codigo":1000,"docente":"Roberto","nombreMateria":"Algo I","modalidad":"parciales","cupo":25,"laboratorio":true,"proyector":false }'
+      post '/materias', '{"codigo":1000,"docente":"Gaston","nombreMateria":"Algo II","modalidad":"parciales","cupo":26,"laboratorio":false,"proyector":false }'
+      message = JSON.parse(last_response.body)['error']
+      expect(last_response.status).to eq 400
+      expect(message).to eq 'MATERIA_DUPLICADA'
+    end
+
+    it 'create a subject without name' do
+      post '/materias', '{"codigo":1000,"docente":"Roberto","modalidad":"parciales","cupo":25,"laboratorio":true,"proyector":false }'
+      message = JSON.parse(last_response.body)['error']
+      expect(last_response.status).to eq 400
+      expect(message).to eq Subject::MANDATORY_NAME
+    end
   end
 
   describe 'assign score to test' do

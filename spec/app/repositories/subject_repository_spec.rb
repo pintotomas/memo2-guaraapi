@@ -18,4 +18,13 @@ describe SubjectRepository do
       expect(subject_found.name).to eq 'Analisis 3'
     end
   end
+
+  describe 'subject code duplicated' do
+    it 'save a subject with same code than before should raise error' do
+      dupe_subject = Subject.new(name: 'Analisis 4', professor: 'Acero', id: 6201, quota: 25,
+                                 type: 'parciales', requires_proyector: true,
+                                 requires_lab: false)
+      expect { repository.insert_subject(dupe_subject) }.to raise_error(Sequel::UniqueConstraintViolation)
+    end
+  end
 end

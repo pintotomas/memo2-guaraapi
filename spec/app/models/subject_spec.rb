@@ -34,9 +34,11 @@ describe Subject do
     end
 
     it 'should be false when name is blank' do
-      subject = described_class.new(name: '',
-                                    professor: 'Sirne', id: '6201')
+      subject = described_class.new(name: '  ', requires_lab: false,
+                                    professor: 'Sirne', id: '6201', quota: '3',
+                                    requires_proyector: true, type: 'coloquio')
       expect(subject.valid?).to eq false
+      expect(subject.errors.messages.values[0][0]).to eq Subject::MANDATORY_NAME
     end
 
     it 'should be false when id is blank' do
@@ -69,6 +71,34 @@ describe Subject do
                                     requires_proyector: true, type: 'coloquio')
       expect(subject.valid?).to eq false
       expect(subject.errors.messages[:id][0]).to eq Subject::INVALID_SUBJECT_ID
+    end
+
+    it 'should be false when quota is over 300' do
+      subject = described_class.new(name: 'Analisis 2', requires_lab: false,
+                                    professor: 'Sirne', id: '6201', quota: '301',
+                                    requires_proyector: true, type: 'coloquio')
+      expect(subject.valid?).to eq false
+    end
+
+    it 'should be true when quota is 300' do
+      subject = described_class.new(name: 'Analisis 2', requires_lab: false,
+                                    professor: 'Sirne', id: '6201', quota: '300',
+                                    requires_proyector: true, type: 'coloquio')
+      expect(subject.valid?).to eq true
+    end
+
+    it 'should be true when quota is less than 300' do
+      subject = described_class.new(name: 'Analisis 2', requires_lab: false,
+                                    professor: 'Sirne', id: '6201', quota: '299',
+                                    requires_proyector: true, type: 'coloquio')
+      expect(subject.valid?).to eq true
+    end
+
+    it 'should be false when id is nil' do
+      subject = described_class.new(name: 'Analisis 2', requires_lab: false,
+                                    professor: 'Sirne', id: nil, quota: '3',
+                                    requires_proyector: true, type: 'coloquio')
+      expect(subject.valid?).to eq false
     end
   end
 end

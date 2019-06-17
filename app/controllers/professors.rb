@@ -3,6 +3,7 @@ GuaraApi::App.controllers :professors do
   SUCCESSFULLY_SCORED_CONST = 'notas_creadas'.freeze
   CREATED_SUBJECT_MSG_CONST = 'MATERIA_CREADA'.freeze
   INVALID_SCORE = 'NOTA_INVALIDA'.freeze
+  INVALID_STUDENT = 'ALUMNO_INCORRECTO'.freeze
   before do
     halt 401 unless valid_api_key?(request.env['HTTP_API_TOKEN'])
   end
@@ -30,7 +31,7 @@ GuaraApi::App.controllers :professors do
     subject_type = SubjectRepository.new.find(request_body['codigo_materia']).type
     if inscription.nil? || !inscription.in_progress
       status 400
-      body 'El alumno no esta inscripto'
+      { "error": INVALID_STUDENT }.to_json
     else
       begin
         grades = JSON.parse(request_body['notas'])

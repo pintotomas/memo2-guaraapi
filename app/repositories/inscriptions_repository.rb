@@ -13,6 +13,13 @@ class InscriptionsRepository < BaseRepository
     inscriptions
   end
 
+  def inscribed_subjects_not_approbed(alias_name)
+    inscriptions = dataset.where { (student_id =~ alias_name && status =~ Inscription::APPROVED_CONST) }
+                          .join(:subjects, id: :subject_id)
+                          .select(:subject_id, :name, :professor).all
+    inscriptions
+  end
+
   protected
 
   def changeset(inscription)

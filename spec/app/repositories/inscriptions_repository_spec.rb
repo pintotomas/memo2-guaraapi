@@ -13,11 +13,12 @@ describe InscriptionsRepository do
   end
 
   let!(:subject_two) do
-    subject = Subject.new(name: 'Biologia',
-                          professor: 'Palermo', id: 321, quota: 9,
-                          type: 'coloquio', requires_proyector: true,
-                          requires_lab: false)
-    subject
+    subject_saved = Subject.new(name: 'Biologia',
+                                professor: 'Palermo', id: 321, quota: 9,
+                                type: 'coloquio', requires_proyector: true,
+                                requires_lab: false)
+    subjects_repository.save(subject_saved)
+    subject_saved
   end
 
   let!(:inscription_without_saved_subejct) do
@@ -25,10 +26,23 @@ describe InscriptionsRepository do
     inscription
   end
 
-  let!(:inscription_to_save) do
+  let!(:inscription_to_save_one) do
     inscription = Inscription.new(student_id: 'Rob123',
                                   subject_id: subject_one.id, status: 'inscripto')
+    repository.save(inscription)
     inscription
+  end
+
+  let!(:inscription_to_save_approved) do
+    inscription = Inscription.new(student_id: 'Rob123',
+                                  subject_id: subject_two.id, status: Inscription::APPROVED_CONST)
+    repository.save(inscription)
+    inscription
+  end
+
+  after(:each) do
+    repository.delete_all
+    SubjectRepository.new.delete_all
   end
 
   describe 'find inscription by student and subject id' do
@@ -42,13 +56,18 @@ describe InscriptionsRepository do
     end
   end
 
-  describe 'There are 2 subjects and I only inscribe in one' do
+  describe 'Filter my subjects' do
     it 'There are 2 subjects and I only inscribe in one' do
-      subjects_repository.save(subject_two)
-      inscription = Inscription.new(subject_id: subject_one.id,
-                                    student_id: 'Rob123', status: 'inscripto')
-      inscribed_subejcts = repository.my_inscribed_inscriptions(inscription.student_id)
-      expect(inscribed_subejcts[0][:subject_id]).to eq inscription.subject_id
+      subject_two
+      inscribed_subejcts = repository.my_inscribed_inscriptions(inscription_to_save_one.student_id)
+      expect(inscribed_subejcts[0][:subject_id]).to eq inscription_to_save_one.subject_id
+    end
+
+    it 'my subjects that I did not approve' do
+      inscription_to_save_one
+      inscription_to_save_approved
+      subejcts = repository.inscribed_subjects_not_approbed(inscription_to_save_one.student_id)
+      expect(subejcts.size).to eq 1
     end
   end
 end

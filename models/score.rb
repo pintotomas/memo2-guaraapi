@@ -14,6 +14,14 @@ class Score
   private
 
   def score_numbers
-    errors.add(:scores, INVALID_SCORE_CONST) if scores.nil? || scores.empty?
+    errors.add(:scores, INVALID_SCORE_CONST) if scores.nil? || scores.empty? || !valid_values(scores)
+  end
+
+  def valid_values(scores)
+    all_valid = true
+    scores.each do |score|
+      all_valid = false unless score.is_a? Numeric
+    end
+    all_valid
   end
 end

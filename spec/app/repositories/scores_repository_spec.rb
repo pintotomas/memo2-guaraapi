@@ -28,13 +28,13 @@ describe ScoresRepository do
 
   describe 'find score  by inscription id' do
     it 'should raise foreign key constraint violation if subject doesnt exist in database' do
-      score = Score.new(id: 1, inscription_id: 22, scores: '[1]', type_subject: 'coloquio')
+      score = Score.new(id: 1, inscription_id: 22, scores: [1], type_subject: 'coloquio')
       expect { repository.save(score) }.to raise_error Sequel::ForeignKeyConstraintViolation
     end
 
     it 'should save score correctly if the incription was saved before' do
       score = Score.new(id: 1,
-                        inscription_id: inscription_one.id, scores: '[1]', type_subject: 'coloquio')
+                        inscription_id: inscription_one.id, scores: [1], type_subject: 'coloquio')
       repository.save(score)
     end
   end

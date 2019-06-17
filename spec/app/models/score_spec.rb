@@ -23,5 +23,10 @@ describe Score do
       score = described_class.new(id: 1, inscription_id: 2, scores: [], type_subject: 'parciales')
       expect(score.valid?).to eq false
     end
+
+    it 'should be false no scores is contains something that is not a number' do
+      score = described_class.new(id: 1, inscription_id: 2, scores: ['a'], type_subject: 'parciales')
+      expect(score.valid?).to eq false
+    end
   end
 end

@@ -19,14 +19,29 @@ describe Score do
       expect(score.valid?).to eq false
     end
 
-    it 'should be false no scores is empty' do
+    it 'should be false when scores is empty' do
       score = described_class.new(id: 1, inscription_id: 2, scores: [], type_subject: 'parciales')
       expect(score.valid?).to eq false
     end
 
-    it 'should be false no scores is contains something that is not a number' do
-      score = described_class.new(id: 1, inscription_id: 2, scores: ['a'], type_subject: 'parciales')
+    it 'should be false when scores contains something that is not a number' do
+      score = described_class.new(id: 1, inscription_id: 2, scores: %w[a b], type_subject: 'parciales')
       expect(score.valid?).to eq false
+    end
+
+    it 'should be false when one score contains something that is not a number' do
+      score = described_class.new(id: 1, inscription_id: 2, scores: [1, 'a'], type_subject: 'parciales')
+      expect(score.valid?).to eq false
+    end
+
+    it 'should be false one score contains something a score greater than 10' do
+      score = described_class.new(id: 1, inscription_id: 2, scores: [1, 11], type_subject: 'parciales')
+      expect(score.valid?).to eq false
+    end
+
+    it 'should be true when all scores are positive numbers smaller than or equal to 10' do
+      score = described_class.new(id: 1, inscription_id: 2, scores: [1, 10], type_subject: 'parciales')
+      expect(score.valid?).to eq true
     end
   end
 end

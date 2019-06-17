@@ -1,6 +1,7 @@
 class Score
   include ActiveModel::Validations
   INVALID_SCORE_CONST = 'NOTA_INVALIDA'.freeze
+  MAX_SCORE_VALUE = 10
 
   attr_accessor :id, :inscription_id, :scores, :type_subject, :updated_on, :created_on
   validate :score_numbers
@@ -20,7 +21,7 @@ class Score
   def valid_values(scores)
     all_valid = true
     scores.each do |score|
-      all_valid = false unless score.is_a? Numeric
+      all_valid = false unless (score.is_a? Numeric) && (score <= MAX_SCORE_VALUE)
     end
     all_valid
   end

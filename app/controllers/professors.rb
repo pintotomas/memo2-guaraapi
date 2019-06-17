@@ -13,6 +13,9 @@ GuaraApi::App.controllers :professors do
       status 400
       { "error": @subject.errors.messages.values[0][0] }.to_json
     end
+  rescue Sequel::UniqueConstraintViolation
+    status 400
+    { "error": 'MATERIA_DUPLICADA' }.to_json
   end
 
   post :calificar, map: '/calificar' do

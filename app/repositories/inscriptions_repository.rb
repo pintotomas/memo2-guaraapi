@@ -14,10 +14,15 @@ class InscriptionsRepository < BaseRepository
   end
 
   def inscribed_subjects_not_approbed(alias_name)
-    inscriptions = dataset.where { (student_id =~ alias_name && status =~ Inscription::APPROVED_CONST) }
-                          .join(:subjects, id: :subject_id)
-                          .select(:subject_id, :name, :professor).all
-    inscriptions
+    return SubjectRepository.new.all.all if dataset.where(student_id: alias_name).all.empty?
+
+    inscriptions = DB["SELECT subject_id, name ,professor, status
+        FROM subjects
+        RIGHT JOIN ( select * from inscriptions where student_id = '" + alias_name + "') misinscripciones
+        ON misinscripciones.subject_id = subjects.id
+        WHERE misinscripciones.status != '" + Inscription::APPROVED_CONST + "'"]
+
+    inscriptions.all
   end
 
   protected

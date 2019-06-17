@@ -100,5 +100,12 @@ describe Subject do
                                     requires_proyector: true, type: 'coloquio')
       expect(subject.valid?).to eq false
     end
+
+    it 'should be false when requires proyector and lab' do
+      subject = described_class.new(name: 'Analisis 2', requires_lab: true,
+                                    professor: 'Sirne', id: '6201', quota: '299',
+                                    requires_proyector: true, type: 'coloquio')
+      expect(subject.valid?).to eq false
+    end
   end
 end

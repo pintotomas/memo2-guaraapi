@@ -3,7 +3,7 @@ class Subject
 
   INVALID_SUBJECT_ID = 'CODIGO_ERRONEO'.freeze
   MAX_SUBJECTS = 9999
-
+  MAX_QUOTA_CONST = 300
   attr_accessor :id, :name, :professor, :type, :requires_proyector, :requires_lab,
                 :updated_on, :created_on, :quota
 
@@ -14,6 +14,8 @@ class Subject
       MAX_SUBJECTS, message: INVALID_SUBJECT_ID }
 
   validates :type, inclusion: { in: %w[coloquio tareas parciales], message: 'MODALIDAD_INVALIDA' }
+
+  validates :quota, numericality: { less_than_or_equal_to: MAX_QUOTA_CONST, message: 'CUPO_EXCEDIDO' }
 
   def initialize(data = {})
     @id = data[:id]

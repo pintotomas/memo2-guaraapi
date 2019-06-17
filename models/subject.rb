@@ -6,6 +6,7 @@ class Subject
   MAX_QUOTA_CONST = 300
   INVALID_TYPE_CONST = 'MODALIDAD_INVALIDA'.freeze
   EXCEEDED_QUOTA_CONST = 'CUPO_EXCEDIDO'.freeze
+  INVALID_RESOURCES_REQUEST = 'PEDIDOS_INCOMPATIBLES'.freeze
   MAX_QUOTA_CONST = 300
   attr_accessor :id, :name, :professor, :type, :requires_proyector, :requires_lab,
                 :updated_on, :created_on, :quota
@@ -22,6 +23,8 @@ class Subject
 
   validates :quota, numericality: { less_than_or_equal_to: MAX_QUOTA_CONST, message: EXCEEDED_QUOTA_CONST }
 
+  validate :resources_request
+
   def initialize(data = {})
     @id = data[:id]
     @name = data[:name]
@@ -32,5 +35,11 @@ class Subject
     @requires_proyector = data[:requires_proyector]
     @updated_on = data[:updated_on]
     @created_on = data[:created_on]
+  end
+
+  private
+
+  def resources_request
+    errors.add(:requires_proyector, INVALID_RESOURCES_REQUEST) if requires_proyector && requires_lab
   end
 end

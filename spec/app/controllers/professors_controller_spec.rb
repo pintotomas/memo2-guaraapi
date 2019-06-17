@@ -22,6 +22,13 @@ RSpec.describe '/professors' do
     params
   end
 
+  let!(:request_to_asign_invalid_score) do
+    InscriptionsRepository.new.save(inscription_to_save)
+    params = { codigo_materia: subject_saved.id, notas: 'aprobado',
+               username_alumno: inscription_to_save.student_id }
+    params
+  end
+
   before(:each) do
     header 'API_TOKEN', ENV['HTTP_API_TOKEN']
   end
@@ -74,6 +81,12 @@ RSpec.describe '/professors' do
       post '/calificar', request_to_asign_score.to_json
       expect(last_response.status).to eq 400
       expect(last_response.body).to eq 'El alumno no esta inscripto'
+    end
+
+    it 'assign invalid score to test' do
+      post '/calificar', request_to_asign_invalid_score.to_json
+      expect(last_response.status).to eq 400
+      expect(last_response.body).to include('NOTA_INVALIDA')
     end
   end
 end

@@ -2,6 +2,7 @@ GuaraApi::App.controllers :professors do
   UNIQUE_VIOLATION_ERROR_CONST = 'MATERIA_DUPLICADA'.freeze
   SUCCESSFULLY_SCORED_CONST = 'notas_creadas'.freeze
   CREATED_SUBJECT_MSG_CONST = 'MATERIA_CREADA'.freeze
+  INVALID_SCORE = 'NOTA_INVALIDA'.freeze
   before do
     halt 401 unless valid_api_key?(request.env['HTTP_API_TOKEN'])
   end
@@ -31,12 +32,12 @@ GuaraApi::App.controllers :professors do
       status 400
       body 'El alumno no esta inscripto'
     else
-      body_grades = request_body['notas']
-      grades = if body_grades.scan(/\D/).empty?
-                 [body_grades.to_i]
-               else
-                 JSON.parse(request_body['notas'])
-               end
+      begin
+        grades = JSON.parse(request_body['notas'])
+      rescue JSON::ParserError
+        status 400
+        return { "error": INVALID_SCORE }.to_json
+      end
       score = Score.new(inscription_id: inscription.id, scores: grades,
                         type_subject: subject_type)
       if score.valid?

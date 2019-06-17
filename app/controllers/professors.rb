@@ -47,7 +47,7 @@ GuaraApi::App.controllers :professors do
         { "resultado": SUCCESSFULLY_SCORED_CONST }.to_json
       else
         status 400
-        body 'Fallo la calificacion'
+        { "error": score.errors.messages.values[0][0] }.to_json
       end
     end
 

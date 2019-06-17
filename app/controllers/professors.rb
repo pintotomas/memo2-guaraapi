@@ -8,7 +8,7 @@ GuaraApi::App.controllers :professors do
     SubjectRepository.new.save(@subject)
     if @subject.valid?
       status 201
-      { "resultado": 'materia_creada' }.to_json
+      { "resultado": 'MATERIA_CREADA' }.to_json
     else
       status 400
       { "error": @subject.errors.messages.values[0][0] }.to_json

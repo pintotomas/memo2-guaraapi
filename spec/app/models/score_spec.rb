@@ -43,5 +43,10 @@ describe Score do
       score = described_class.new(id: 1, inscription_id: 2, scores: [1, 10], type_subject: 'parciales')
       expect(score.valid?).to eq true
     end
+
+    it 'should be false false when a score is negative' do
+      score = described_class.new(id: 1, inscription_id: 2, scores: [1, -1], type_subject: 'parciales')
+      expect(score.valid?).to eq false
+    end
   end
 end

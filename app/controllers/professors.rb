@@ -39,10 +39,10 @@ GuaraApi::App.controllers :professors do
                end
       score = Score.new(inscription_id: inscription.id, scores: grades,
                         type_subject: subject_type)
-      inscription.score(score)
-      InscriptionsRepository.new.save(inscription)
-      ScoresRepository.new.save(score)
       if score.valid?
+        inscription.score(score)
+        InscriptionsRepository.new.save(inscription)
+        ScoresRepository.new.save(score)
         status 200
         { "resultado": SUCCESSFULLY_SCORED_CONST }.to_json
       else

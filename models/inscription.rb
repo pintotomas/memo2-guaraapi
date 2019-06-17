@@ -1,6 +1,8 @@
 class Inscription
   APPROVED_CONST = 'APROBADO'.freeze
   DISAPPROVED_CONST = 'DESAPROBADO'.freeze
+  DUPLICATE_INSCRIPTION = 'INSCRIPCION_DUPLICADA'.freeze
+
   include ActiveModel::Validations
 
   INSCRIBED = 'EN_CURSO'.freeze

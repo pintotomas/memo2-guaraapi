@@ -53,17 +53,16 @@ GuaraApi::App.controllers :students do
     )
     if !inscribed.nil? && inscribed.in_progress
       status 400
-      body 'Ya se encuentra inscripto'
-      return
-    end
-
-    @inscription = get_inscription_from_json(request_body)
-    if @inscription.valid?
-      InscriptionsRepository.new.save(@inscription) # manejar inscribirse a materias inexistentes
-      status 201
-      body 'Inscripción exitosa'
+      { "error": Inscription::DUPLICATE_INSCRIPTION }.to_json
     else
-      status 500
+      @inscription = get_inscription_from_json(request_body)
+      if @inscription.valid?
+        InscriptionsRepository.new.save(@inscription) # manejar inscribirse a materias inexistentes
+        status 201
+        body 'Inscripción exitosa'
+      else
+        status 500
+      end
     end
   rescue Sequel::ForeignKeyConstraintViolation
     status 500

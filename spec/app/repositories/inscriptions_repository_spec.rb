@@ -84,6 +84,6 @@ describe InscriptionsRepository do
         inscription_to_save_approved.student_id
       )
       expect(subejcts.size).to eq 1
-    
+    end
   end
 end

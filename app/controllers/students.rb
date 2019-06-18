@@ -7,7 +7,6 @@ GuaraApi::App.controllers :students do
   before do
     halt 401, 'API_TOKEN_INVALIDO' unless valid_api_key?(request.env['HTTP_API_TOKEN'])
   end
-
   get :materias, map: '/materias' do
     subjects_response = []
     alias_name = request.params['usernameAlumno']
@@ -15,6 +14,7 @@ GuaraApi::App.controllers :students do
       status 400
       { "error": REQUIRED_USER_NAME }.to_json
     else
+
       subjects = InscriptionsRepository.new.inscribed_subjects_not_approbed(alias_name)
       subjects.each do |subject|
         subject_response =
@@ -47,11 +47,12 @@ GuaraApi::App.controllers :students do
 
   get :estado, map: '/inscripciones' do
     alias_name = request.params['usernameAlumno']
+    inscribed_subjects = []
     if request.params['usernameAlumno'].nil?
       status 400
       { "error": REQUIRED_USER_NAME }.to_json
     else
-      inscribed_subjects = []
+
       subjects = InscriptionsRepository.new.my_inscribed_inscriptions(alias_name)
       subjects.each do |subject|
         subject_response =
@@ -67,26 +68,20 @@ GuaraApi::App.controllers :students do
 
   post :alumnos, map: '/alumnos' do
     request_body = JSON.parse(request.body.read.gsub('\"', '"'))
-
-    if request_body['username_alumno'].nil?
+    inscribed = InscriptionsRepository.new.find_by_student_and_subject_id(
+      request_body['username_alumno'], request_body['codigo_materia']
+    )
+    if !inscribed.nil? && inscribed.in_progress
       status 400
-      { "error": REQUIRED_USER_NAME }.to_json
+      { "error": Inscription::DUPLICATE_INSCRIPTION }.to_json
     else
-      inscribed = InscriptionsRepository.new.find_by_student_and_subject_id_and_in_progress(
-        request_body['username_alumno'], request_body['codigo_materia']
-      )
-      if !inscribed.nil?
-        status 400
-        { "error": Inscription::DUPLICATE_INSCRIPTION }.to_json
+      @inscription = get_inscription_from_json(request_body)
+      if @inscription.valid?
+        InscriptionsRepository.new.save(@inscription) # manejar inscribirse a materias inexistentes
+        status 201
+        { 'resultado' => Inscription::SUCCESSFUL_INSCRIPTION }.to_json
       else
-        @inscription = get_inscription_from_json(request_body)
-        if @inscription.valid?
-          InscriptionsRepository.new.save(@inscription) # manejar inscribirse a materias inexistentes
-          status 201
-          { 'resultado' => Inscription::SUCCESSFUL_INSCRIPTION }.to_json
-        else
-          status 500
-        end
+        status 500
       end
     end
   rescue Sequel::ForeignKeyConstraintViolation

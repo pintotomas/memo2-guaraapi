@@ -14,4 +14,6 @@ class Scorer
     end
     final_score
   end
+
+  def calculate_historical_score(_inscriptions); end
 end

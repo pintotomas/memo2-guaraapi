@@ -3,6 +3,7 @@ describe Scorer do
 
   describe 'model' do
     it { is_expected.to respond_to(:calculate_final_score) }
+    it { is_expected.to respond_to(:calculate_historical_score) }
   end
 
   describe 'calculate_final_score' do

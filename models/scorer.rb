@@ -15,7 +15,12 @@ class Scorer
     final_score
   end
 
-  def calculate_historical_average(_inscriptions)
-    1
+  def calculate_historical_average(inscriptions)
+    grades_sum = 0
+    quantity_finished_courses = inscriptions.length
+    inscriptions.each do |i|
+      grades_sum += i.final_grade
+    end
+    grades_sum / quantity_finished_courses.to_f
   end
 end

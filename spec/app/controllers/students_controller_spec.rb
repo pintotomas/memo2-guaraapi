@@ -117,6 +117,7 @@ RSpec.describe '/students' do
       InscriptionsRepository.new.save(inscription_chemical)
       params = { "codigoMateria": subject_chemical.id }
       get '/materias/estado', params
+      response = JSON.parse(last_response.body)
       expect(response['error']).to eq REQUIRED_USER_NAME
     end
   end

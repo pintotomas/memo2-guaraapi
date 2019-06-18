@@ -3,7 +3,7 @@ describe Scorer do
 
   describe 'model' do
     it { is_expected.to respond_to(:calculate_final_score) }
-    it { is_expected.to respond_to(:calculate_historical_score) }
+    it { is_expected.to respond_to(:calculate_historical_average) }
   end
 
   describe 'calculate_final_score' do
@@ -41,6 +41,10 @@ describe Scorer do
       final_score = scorer.calculate_final_score(coloquio_score)
       expect(final_score.passed_course).to eq true
       expect(final_score.score).to eq 4
+    end
+    it 'calculate historical average' do
+      inscription = Inscription.new(id: 1, student_id: 2, subject_id: 3, status: 'APROBADO', final_grade: 1)
+      expect(scorer.calculate_historical_average([inscription])).to eq 1
     end
   end
 end

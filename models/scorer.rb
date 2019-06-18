@@ -15,5 +15,7 @@ class Scorer
     final_score
   end
 
-  def calculate_historical_score(_inscriptions); end
+  def calculate_historical_average(_inscriptions)
+    1
+  end
 end

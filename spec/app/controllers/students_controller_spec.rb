@@ -1,6 +1,9 @@
 require 'spec_helper'
 require 'byebug'
 
+REQUIRED_USER_NAME = 'DEBE TENER USER_NAME PARA CONSULTAR'.freeze
+REQUIRED_FULL_NAME = 'DEBE TENER NOMBRE Y APELLIDO PARA CONSULTAR'.freeze
+
 RSpec.describe '/students' do
   #  pending "add some examples to #{__FILE__}" do
   let!(:subject_algebra) do
@@ -89,5 +92,32 @@ RSpec.describe '/students' do
   it 'create inscription to a subject that does not exist' do
     post '/alumnos', '{"nombre_completo":"Juan Perez","codigo_materia":"1001","username_alumno":"juanperez"}'
     expect(last_response.status).to eq 500
+  end
+
+  describe 'call Students RESTs without userName' do
+    it 'consult academic offer' do
+      SubjectRepository.new.save(subject_algebra)
+      params = { "nada": 'nada' }
+      get '/materias', params
+      response = JSON.parse(last_response.body)
+      expect(response['error']).to eq REQUIRED_USER_NAME
+    end
+
+    it 'consult subjects in which I inscribed' do
+      SubjectRepository.new.save(subject_chemical)
+      InscriptionsRepository.new.save(inscription_chemical)
+      params = { "codigoMateria": subject_chemical.id }
+      get '/inscripciones', params
+      response = JSON.parse(last_response.body)
+      expect(response['error']).to eq REQUIRED_USER_NAME
+    end
+
+    it 'consult my status in a subject' do
+      SubjectRepository.new.save(subject_chemical)
+      InscriptionsRepository.new.save(inscription_chemical)
+      params = { "codigoMateria": subject_chemical.id }
+      get '/materias/estado', params
+      expect(response['error']).to eq REQUIRED_USER_NAME
+    end
   end
 end

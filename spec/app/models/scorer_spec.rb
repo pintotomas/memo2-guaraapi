@@ -43,13 +43,18 @@ describe Scorer do
       expect(final_score.score).to eq 4
     end
     it 'calculate historical average' do
-      inscription = Inscription.new(id: 1, student_id: 2, subject_id: 3, status: 'APROBADO', final_grade: 1)
+      inscription = Inscription.new(id: 1, student_id: 2, subject_id: 3, status: 'DESAPROBADO', final_grade: 1)
       expect(scorer.calculate_historical_average([inscription])).to eq 1
     end
     it 'calculate historical average with two inscriptions' do
-      inscription1 = Inscription.new(id: 1, student_id: 2, subject_id: 3, status: 'APROBADO', final_grade: 1)
+      inscription1 = Inscription.new(id: 1, student_id: 2, subject_id: 3, status: 'DESAPROBADO', final_grade: 1)
       inscription2 = Inscription.new(id: 1, student_id: 2, subject_id: 3, status: 'APROBADO', final_grade: 7)
       expect(scorer.calculate_historical_average([inscription1, inscription2])).to eq 8 / 2.to_f
+    end
+    it 'calculate historical average should ignore subjects that have not been qualified' do
+      inscription1 = Inscription.new(id: 1, student_id: 2, subject_id: 3, status: 'EN_CURSO', final_grade: 1)
+      inscription2 = Inscription.new(id: 1, student_id: 2, subject_id: 3, status: 'APROBADO', final_grade: 7)
+      expect(scorer.calculate_historical_average([inscription1, inscription2])).to eq 7
     end
   end
 end

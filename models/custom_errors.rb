@@ -9,3 +9,6 @@ end
 
 class ScoreCanNotBeNilError < RuntimeError
 end
+
+class ExceededQuotaError < RuntimeError
+end

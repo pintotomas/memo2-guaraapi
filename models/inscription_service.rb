@@ -9,6 +9,8 @@ class InscriptionService
   def save(inscription)
     subject = @subject_repository.find(inscription.subject_id)
     amount_in_course = @inscriptions_repository.inscriptions_in_course(subject.id)
-    @inscriptions_repository.save(inscription) if subject.quota > amount_in_course
+    raise ExceededQuotaError unless subject.quota > amount_in_course
+
+    @inscriptions_repository.save(inscription)
   end
 end

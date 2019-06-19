@@ -45,11 +45,11 @@ describe InscriptionService do
       expect(service.inscriptions_repository.inscriptions_in_course(subject_one.id)).to eq 2
     end
 
-    it 'doesnt save when inscriptions amount equals quota' do
+    it 'doesnt save when inscriptions amount equals quota and raises ExceededQuotaError' do
       service.subject_repository.save(subject_one)
       service.save(inscription1)
       service.save(inscription2)
-      service.save(inscription3)
+      expect { service.save(inscription3) }.to raise_error(ExceededQuotaError)
       expect(service.inscriptions_repository.inscriptions_in_course(subject_one.id)).to eq 2
     end
   end

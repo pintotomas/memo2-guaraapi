@@ -50,7 +50,7 @@ GuaraApi::App.controllers :students do
     alias_name = request.params['usernameAlumno']
     inscriptions = InscriptionsRepository.new.find_by_student(alias_name)
     quantity_approved = quantity_approved_subjects(inscriptions)
-    average = Scorer.new.calculate_historical_average(inscriptions)
+    average = Scorer.new.calculate_historical_average(inscriptions) || nil
     status 200
     { "materias_aprobadas": quantity_approved, "nota_promedio": average }.to_json
   end

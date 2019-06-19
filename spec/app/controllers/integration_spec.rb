@@ -57,8 +57,10 @@ RSpec.describe 'integration tests' do
     expect(JSON.parse(last_response.body)['nota_promedio']).to eq 6.0
   end
 
-  # it '/promedio without any previous inscription' do
-  #  promedio_params = { usernameAlumno: 'tomdsfgahsdfsfdsgsdf123' }
-  #  get '/alumnos/promedio', promedio_params
-  # end
+  it '/promedio without any previous inscription' do
+    promedio_params = { usernameAlumno: 'tomdsfgahsdfsfdsgsdf123' }
+    get '/alumnos/promedio', promedio_params
+    expect(JSON.parse(last_response.body)['materias_aprobadas']).to eq 0
+    expect(JSON.parse(last_response.body)['nota_promedio']).to eq nil
+  end
 end

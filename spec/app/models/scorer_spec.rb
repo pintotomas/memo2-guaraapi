@@ -56,5 +56,8 @@ describe Scorer do
       inscription2 = Inscription.new(id: 1, student_id: 2, subject_id: 3, status: 'APROBADO', final_grade: 7)
       expect(scorer.calculate_historical_average([inscription1, inscription2])).to eq 7
     end
+    it 'calculate historical average with no inscriptions' do
+      expect(scorer.calculate_historical_average([])).to eq nil
+    end
   end
 end

@@ -16,6 +16,8 @@ class Scorer
   end
 
   def calculate_historical_average(inscriptions)
+    return nil if inscriptions.empty?
+
     grades_sum = 0
     quantity_finished_courses = 0
     inscriptions.each do |i|

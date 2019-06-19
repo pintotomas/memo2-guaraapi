@@ -8,8 +8,7 @@ class InscriptionsRepository < BaseRepository
   end
 
   def my_inscribed_inscriptions(alias_name)
-    inscriptions = dataset.where(student_id: alias_name,
-                                 in_progress: true).join(:subjects, id: :subject_id).select(:subject_id, :name, :professor).all
+    inscriptions = dataset.where(student_id: alias_name).join(:subjects, id: :subject_id).select(:subject_id, :name, :professor).all
     inscriptions
   end
 

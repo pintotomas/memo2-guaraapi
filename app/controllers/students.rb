@@ -68,10 +68,10 @@ GuaraApi::App.controllers :students do
 
   post :alumnos, map: '/alumnos' do
     request_body = JSON.parse(request.body.read.gsub('\"', '"'))
-    inscribed = InscriptionsRepository.new.find_by_student_and_subject_id(
+    inscribed = InscriptionsRepository.new.find_by_student_and_subject_id_and_in_progress(
       request_body['username_alumno'], request_body['codigo_materia']
     )
-    if !inscribed.nil? && inscribed.in_progress
+    if !inscribed.nil?
       status 400
       { "error": Inscription::DUPLICATE_INSCRIPTION }.to_json
     else

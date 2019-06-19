@@ -26,5 +26,8 @@ describe SubjectRepository do
                                  requires_lab: false)
       expect { repository.insert_subject(dupe_subject) }.to raise_error(Sequel::UniqueConstraintViolation)
     end
+    it 'subject exists? when subject does not exist ' do
+      expect(repository.subject_exists?(850_981_237_120)).to eq false
+    end
   end
 end

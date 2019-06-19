@@ -8,6 +8,8 @@ class Subject
   INVALID_TYPE_CONST = 'MODALIDAD_INVALIDA'.freeze
   EXCEEDED_QUOTA_CONST = 'CUPO_EXCEDIDO'.freeze
   INVALID_RESOURCES_REQUEST = 'PEDIDOS_INCOMPATIBLES'.freeze
+  MAX_CHARACTERS_NAME = 50
+  EXCEEDED_CHARACTERS_NAME = 'NOMBRE_ERRONEO'.freeze
   MAX_QUOTA_CONST = 300
   attr_accessor :id, :name, :professor, :type, :requires_proyector, :requires_lab,
                 :updated_on, :created_on, :quota
@@ -18,6 +20,8 @@ class Subject
 
   validates :id, numericality: { only_integer: true, less_than_or_equal_to:
       MAX_SUBJECTS, message: INVALID_SUBJECT_ID }
+
+  validates :name, length: { maximum: MAX_CHARACTERS_NAME, message: EXCEEDED_CHARACTERS_NAME }
 
   validates :id, presence: { message: INVALID_SUBJECT_ID }
 

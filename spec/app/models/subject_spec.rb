@@ -107,5 +107,14 @@ describe Subject do
                                     requires_proyector: true, type: 'coloquio')
       expect(subject.valid?).to eq false
     end
+
+    it 'should be false when subject has  a name with greater than 50 characters' do
+      subject = described_class.new(name: 'Ciencias aplicadas de la computacion en
+                                           tiempos de colera', requires_lab: false,
+                                    professor: 'Sirne', id: '9988', quota: '3',
+                                    requires_proyector: true, type: 'coloquio')
+      expect(subject.valid?).to eq false
+      expect(subject.errors.messages[:name][0]).to eq Subject::EXCEEDED_CHARACTERS_NAME
+    end
   end
 end

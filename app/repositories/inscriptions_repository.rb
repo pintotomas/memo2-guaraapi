@@ -34,6 +34,11 @@ class InscriptionsRepository < BaseRepository
     inscriptions.all
   end
 
+  def inscriptions_in_course(subject_id)
+    count = dataset.where(subject_id: subject_id, status: Inscription::INSCRIBED).count
+    count
+  end
+
   protected
 
   def changeset(inscription)

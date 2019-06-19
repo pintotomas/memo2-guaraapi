@@ -1,5 +1,4 @@
 require 'json'
-
 REQUIRED_USER_NAME = 'DEBE TENER USER_NAME PARA CONSULTAR'.freeze
 REQUIRED_FULL_NAME = 'DEBE TENER NOMBRE Y APELLIDO PARA CONSULTAR'.freeze
 
@@ -7,6 +6,13 @@ GuaraApi::App.controllers :students do
   before do
     halt 401, { 'error' => 'API_TOKEN_INVALIDO' }.to_json unless valid_api_key?(request.env['HTTP_API_TOKEN'])
   end
+
+  get :materias, map: '/materias/all' do
+    subjects = SubjectRepository.new.all.all
+    status 200
+    { "materias": subjects }.to_json
+  end
+
   get :materias, map: '/materias' do
     subjects_response = []
     alias_name = request.params['usernameAlumno']

@@ -5,7 +5,7 @@ REQUIRED_FULL_NAME = 'DEBE TENER NOMBRE Y APELLIDO PARA CONSULTAR'.freeze
 
 GuaraApi::App.controllers :students do
   before do
-    halt 401, 'API_TOKEN_INVALIDO' unless valid_api_key?(request.env['HTTP_API_TOKEN'])
+    halt 401, { 'error' => 'API_TOKEN_INVALIDO' }.to_json unless valid_api_key?(request.env['HTTP_API_TOKEN'])
   end
   get :materias, map: '/materias' do
     subjects_response = []
@@ -64,6 +64,15 @@ GuaraApi::App.controllers :students do
       status 200
       { 'inscripciones' => inscribed_subjects }.to_json
     end
+  end
+
+  get :promedio, map: '/alumnos/promedio' do
+    alias_name = request.params['usernameAlumno']
+    inscriptions = InscriptionsRepository.new.find_by_student(alias_name)
+    quantity_approved = quantity_approved_subjects(inscriptions)
+    average = Scorer.new.calculate_historical_average(inscriptions) || nil
+    status 200
+    { "materias_aprobadas": quantity_approved, "nota_promedio": average }.to_json
   end
 
   post :alumnos, map: '/alumnos' do

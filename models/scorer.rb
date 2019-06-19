@@ -14,4 +14,20 @@ class Scorer
     end
     final_score
   end
+
+  def calculate_historical_average(inscriptions)
+    return nil if inscriptions.empty?
+
+    grades_sum = 0
+    quantity_finished_courses = 0
+    inscriptions.each do |i|
+      if i.status == Inscription::APPROVED_CONST || i.status == Inscription::DISAPPROVED_CONST
+        grades_sum += i.final_grade
+        quantity_finished_courses += 1
+      end
+    end
+    return nil if quantity_finished_courses.zero?
+
+    grades_sum / quantity_finished_courses.to_f
+  end
 end

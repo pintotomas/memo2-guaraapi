@@ -5,7 +5,7 @@ GuaraApi::App.controllers :professors do
   INVALID_SCORE = 'NOTA_INVALIDA'.freeze
   INVALID_STUDENT = 'ALUMNO_INCORRECTO'.freeze
   before do
-    halt 401 unless valid_api_key?(request.env['HTTP_API_TOKEN'])
+    halt 401, { 'error' => 'API_TOKEN_INVALIDO' }.to_json unless valid_api_key?(request.env['HTTP_API_TOKEN'])
   end
   post :materias, map: '/materias' do
     request_body = JSON.parse(request.body.read.to_s)

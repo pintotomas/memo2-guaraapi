@@ -46,6 +46,11 @@ GuaraApi::App.controllers :students do
     { 'inscripciones' => inscribed_subjects }.to_json
   end
 
+  get :promedio, map: '/alumnos/promedio' do
+    status 200
+    { "materias_aprobadas": 2, "nota_promedio": 8.0 }.to_json
+  end
+
   post :alumnos, map: '/alumnos' do
     request_body = JSON.parse(request.body.read.gsub('\"', '"'))
     inscribed = InscriptionsRepository.new.find_by_student_and_subject_id(

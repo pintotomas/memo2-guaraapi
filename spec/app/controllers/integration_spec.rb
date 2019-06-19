@@ -63,4 +63,10 @@ RSpec.describe 'integration tests' do
     expect(JSON.parse(last_response.body)['materias_aprobadas']).to eq 0
     expect(JSON.parse(last_response.body)['nota_promedio']).to eq nil
   end
+
+  it 'invalid API TOKEN' do
+    header 'API_TOKEN', 'zaraza'
+    get '/materias'
+    expect(last_response.status).to eq 401
+  end
 end

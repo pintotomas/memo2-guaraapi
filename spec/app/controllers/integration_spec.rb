@@ -33,17 +33,27 @@ RSpec.describe 'integration tests' do
     SubjectRepository.new.delete_all
   end
 
-  it 'qualify a student on two subjects and ask for average grade and quantity of approved subjects' do
-    # post '/alumnos', '{"nombre_completo":"Juan Perez","codigo_materia":' + subject_algebra.id.to_s + ',"username_alumno":"tomas123"}'
-    # post '/alumnos', '{"nombre_completo":"Juan Perez","codigo_materia":' + subject_chemical.id.to_s + ',"username_alumno":"tomas123"}'
+  it 'qualify a student on two approved subjects and ask for average grade and quantity of approved subjects' do
     params_algebra = { codigo_materia: 6201, notas: '[10]', username_alumno: 'tomas123' }
-    params_chemical = { codigo_materia: 6204, notas: '[10]', username_alumno: 'tomas123' }
+    params_chemical = { codigo_materia: 6204, notas: '[6]', username_alumno: 'tomas123' }
     post '/calificar', params_algebra.to_json
     post '/calificar', params_chemical.to_json
     promedio_params = { usernameAlumno: 'tomas123' }
-    get '/alumnos/promedio', promedio_params.to_json
+    get '/alumnos/promedio', promedio_params
     expect(last_response.status).to eq 200
     expect(JSON.parse(last_response.body)['materias_aprobadas']).to eq 2
-    expect(JSON.parse(last_response.body)['nota_promedio']).to eq 8.0
+    expect(JSON.parse(last_response.body)['nota_promedio']).to eq 8
+  end
+
+  it 'qualify a student on two subjects (only one approved) and ask for average grade and quantity of approved subjects' do
+    params_algebra = { codigo_materia: 6201, notas: '[10]', username_alumno: 'tomas123' }
+    params_chemical = { codigo_materia: 6204, notas: '[2]', username_alumno: 'tomas123' }
+    post '/calificar', params_algebra.to_json
+    post '/calificar', params_chemical.to_json
+    promedio_params = { usernameAlumno: 'tomas123' }
+    get '/alumnos/promedio', promedio_params
+    expect(last_response.status).to eq 200
+    expect(JSON.parse(last_response.body)['materias_aprobadas']).to eq 1
+    expect(JSON.parse(last_response.body)['nota_promedio']).to eq 6.0
   end
 end

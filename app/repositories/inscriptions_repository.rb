@@ -2,6 +2,11 @@ class InscriptionsRepository < BaseRepository
   self.table_name = :inscriptions
   self.model_class = 'Inscription'
 
+  def find_by_student(student_id)
+    inscriptions = load_collection dataset.where(student_id: student_id)
+    inscriptions
+  end
+
   def find_by_student_and_subject_id(student_id, subject_id)
     inscription = load_collection dataset.where(student_id: student_id, subject_id: subject_id)
     inscription.first

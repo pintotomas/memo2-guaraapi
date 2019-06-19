@@ -47,8 +47,12 @@ GuaraApi::App.controllers :students do
   end
 
   get :promedio, map: '/alumnos/promedio' do
+    alias_name = request.params['usernameAlumno']
+    inscriptions = InscriptionsRepository.new.find_by_student(alias_name)
+    quantity_approved = quantity_approved_subjects(inscriptions)
+    average = Scorer.new.calculate_historical_average(inscriptions)
     status 200
-    { "materias_aprobadas": 2, "nota_promedio": 8.0 }.to_json
+    { "materias_aprobadas": quantity_approved, "nota_promedio": average }.to_json
   end
 
   post :alumnos, map: '/alumnos' do

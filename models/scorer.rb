@@ -26,6 +26,8 @@ class Scorer
         quantity_finished_courses += 1
       end
     end
+    return nil if quantity_finished_courses.zero?
+
     grades_sum / quantity_finished_courses.to_f
   end
 end

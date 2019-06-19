@@ -91,7 +91,7 @@ RSpec.describe '/students' do
 
   it 'create inscription to a subject that does not exist' do
     post '/alumnos', '{"nombre_completo":"Juan Perez","codigo_materia":"1001","username_alumno":"juanperez"}'
-    expect(last_response.status).to eq 500
+    expect(last_response.status).to eq 400
   end
 
   describe 'call Students RESTs without userName' do

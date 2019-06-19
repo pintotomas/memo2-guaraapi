@@ -7,10 +7,6 @@ class SubjectRepository < BaseRepository
     subject_by_name.first
   end
 
-  def subject_exists?(_code)
-    false
-  end
-
   def insert_subject(record)
     insert(record)
   end

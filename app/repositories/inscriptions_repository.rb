@@ -23,7 +23,7 @@ class InscriptionsRepository < BaseRepository
     inscriptions = DB["SELECT subjects.id, in_progress, name ,professor, status, student_id FROM subjects
                       LEFT JOIN ( select * from inscriptions where student_id = '" + alias_name + "') misinscripciones
                       ON misinscripciones.subject_id = subjects.id
-                      WHERE in_progress IS TRUE AND
+                      WHERE
                       (misinscripciones.status is NULL or misinscripciones.status != '" + Inscription::APPROVED_CONST + "')"]
 
     inscriptions.all

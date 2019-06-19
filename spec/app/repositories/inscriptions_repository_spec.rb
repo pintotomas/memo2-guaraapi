@@ -40,7 +40,7 @@ describe InscriptionsRepository do
     inscription
   end
 
-  let!(:inscription_to_save_one_not_progress) do
+  let(:inscription_to_save_one_not_progress) do
     inscription = Inscription.new(student_id: 'Rob123', in_progress: false,
                                   subject_id: subject_one.id, status: 'inscripto')
     repository.save(inscription)

@@ -10,7 +10,7 @@ GuaraApi::App.controllers :students do
   get :materias, map: '/materias/all' do
     subjects = SubjectRepository.new.all.all
     status 200
-    {"materias": subjects}.to_json
+    { "materias": subjects }.to_json
   end
 
   get :materias, map: '/materias' do

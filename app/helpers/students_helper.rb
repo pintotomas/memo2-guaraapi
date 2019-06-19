@@ -3,9 +3,9 @@
 module GuaraApi
   class App
     module StudentsHelper
-      # def simple_helper_method
-      # ...
-      # end
+      def quantity_approved_subjects(_subjects)
+        0
+      end
     end
 
     helpers StudentsHelper

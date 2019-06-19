@@ -27,15 +27,22 @@ describe InscriptionsRepository do
   end
 
   let!(:inscription_to_save_one) do
-    inscription = Inscription.new(student_id: 'Rob123',
+    inscription = Inscription.new(student_id: 'Rob123', in_progress: true,
                                   subject_id: subject_one.id, status: 'inscripto')
     repository.save(inscription)
     inscription
   end
 
   let!(:inscription_to_save_approved) do
-    inscription = Inscription.new(student_id: 'Rob123',
+    inscription = Inscription.new(student_id: 'Rob123', in_progress: true,
                                   subject_id: subject_two.id, status: Inscription::APPROVED_CONST)
+    repository.save(inscription)
+    inscription
+  end
+
+  let!(:inscription_to_save_one_not_progress) do
+    inscription = Inscription.new(student_id: 'Rob123', in_progress: false,
+                                  subject_id: subject_one.id, status: 'inscripto')
     repository.save(inscription)
     inscription
   end
@@ -84,6 +91,14 @@ describe InscriptionsRepository do
         inscription_to_save_approved.student_id
       )
       expect(subejcts.size).to eq 1
+    end
+
+    it 'There are 2 inscriptions, but one in progress' do
+      inscription_to_save_one_not_progress
+      inscription_to_save_one
+      inscription_in_progress = repository.find_by_student_and_subject_id_and_in_progress(inscription_to_save_one.student_id,
+                                                                                          inscription_to_save_one.subject_id)
+      expect(inscription_in_progress.subject_id).to eq inscription_to_save_one.subject_id
     end
   end
 end

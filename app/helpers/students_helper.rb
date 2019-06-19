@@ -3,8 +3,12 @@
 module GuaraApi
   class App
     module StudentsHelper
-      def quantity_approved_subjects(_subjects)
-        0
+      def quantity_approved_subjects(inscriptions)
+        quantity_approved_courses = 0
+        inscriptions.each do |i|
+          quantity_approved_courses += 1 if i.status == Inscription::APPROVED_CONST
+        end
+        quantity_approved_courses
       end
     end
 

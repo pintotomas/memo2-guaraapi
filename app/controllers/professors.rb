@@ -29,16 +29,11 @@ GuaraApi::App.controllers :professors do
       request_body['username_alumno'], request_body['codigo_materia']
     )
     subject_type = SubjectRepository.new.find(request_body['codigo_materia']).type
+    grades = JSON.parse(request_body['notas'])
     if inscription.nil? || !inscription.in_progress
       status 400
       { "error": INVALID_STUDENT }.to_json
     else
-      begin
-        grades = JSON.parse(request_body['notas'])
-      rescue JSON::ParserError
-        status 400
-        return { "error": INVALID_SCORE }.to_json
-      end
       score = Score.new(inscription_id: inscription.id, scores: grades,
                         type_subject: subject_type)
       if score.valid?
@@ -55,5 +50,8 @@ GuaraApi::App.controllers :professors do
 
   rescue Sequel::ForeignKeyConstraintViolation
     status 500
+  rescue JSON::ParserError
+    status 400
+    { "error": INVALID_SCORE }.to_json
   end
 end

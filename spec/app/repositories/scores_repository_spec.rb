@@ -20,7 +20,7 @@ describe ScoresRepository do
 
   let!(:inscription_one) do
     inscription_saved = Inscription.new(id: 1,
-                                        student_id: 'Rob123', subject_id: 123, status: 'inscripto')
+                                        student_id: 'Rob123', subject_id: 123, status: 'EN_CURSO')
     inscriptions_repository.save(inscription_saved)
 
     inscription_saved

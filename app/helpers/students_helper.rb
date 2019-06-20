@@ -3,6 +3,32 @@
 module GuaraApi
   class App
     module StudentsHelper
+      def build_subjects_response_from_sequel(subjects)
+        subjects_response = []
+        subjects.each do |subject|
+          subject_response =
+            { codigo: subject[:id],
+              nombre: subject[:name],
+              docente: subject[:professor] }
+
+          subjects_response.push(subject_response)
+        end
+        subjects_response
+      end
+
+      def build_subjects_response_from_sequel_join(subjects)
+        subjects_response = []
+        subjects.each do |subject|
+          subject_response =
+            { codigo: subject[:subject_id],
+              nombre: subject[:name],
+              docente: subject[:professor] }
+
+          subjects_response.push(subject_response)
+        end
+        subjects_response
+      end
+
       def quantity_approved_subjects(inscriptions)
         quantity_approved_courses = 0
         inscriptions.each do |i|

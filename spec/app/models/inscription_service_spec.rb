@@ -18,6 +18,12 @@ describe InscriptionService do
     inscription = Inscription.new(student_id: 'Rob1232', subject_id: 123, status: Inscription::INSCRIBED)
     inscription
   end
+
+  let(:approved_inscription) do
+    inscription = Inscription.new(student_id: 'Rob1232', subject_id: 123, status: Inscription::APPROVED_CONST)
+    inscription
+  end
+
   let(:subject_one) do
     subject_one = Subject.new(name: 'Analisis 3',
                               professor: 'Sirne', id: 123, quota: 2,
@@ -66,6 +72,12 @@ describe InscriptionService do
 
     it 'raises error when subject doesnt exist in the db that inherits from InscriptionError' do
       expect { service.save(inscription1) }.to raise_error(InscriptionError)
+    end
+
+    it 'I can not inscribed in a subject that I already approved' do
+      service.subject_repository.save(subject_one)
+      service.save(approved_inscription)
+      expect { service.save(inscription1) }.to raise_error(ApprovedSubjectError)
     end
   end
 end

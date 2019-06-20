@@ -79,9 +79,9 @@ GuaraApi::App.controllers :students do
       InscriptionService.new.save(@inscription) # manejar inscribirse a materias inexistentes
       status 201
       { 'resultado' => Inscription::SUCCESSFUL_INSCRIPTION }.to_json
-    rescue InscriptionError => ex
+    rescue InscriptionError => e
       status 400
-      { "error": ex.message }.to_json
+      { "error": e.message }.to_json
     end
   end
 end

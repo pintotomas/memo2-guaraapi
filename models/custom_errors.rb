@@ -31,8 +31,20 @@ class InvalidInscriptionError < InscriptionError
   end
 end
 
+class InvalidScoreInfo < InscriptionError
+  def initialize(msg = 'NOTA_INVALIDA')
+    super
+  end
+end
+
 class DuplicateInscriptionError < InscriptionError
   def initialize(msg = Inscription::DUPLICATE_INSCRIPTION)
+    super
+  end
+end
+
+class InvalidStudentError < RuntimeError
+  def initialize(msg = 'ALUMNO_INCORRECTO')
     super
   end
 end

@@ -25,12 +25,8 @@ GuaraApi::App.controllers :professors do
 
   post :calificar, map: '/calificar' do
     request_body = JSON.parse(request.body.read.gsub('\"', '"'))
-    inscription = InscriptionsRepository.new.find_by_student_and_subject_id(
-      request_body['username_alumno'], request_body['codigo_materia']
-    )
-    subject_type = SubjectRepository.new.find(request_body['codigo_materia']).type
-    grades = JSON.parse(request_body['notas'])
-    QualificationService.new.score(inscription, subject_type, grades)
+
+    QualificationService.new(request_body).score
     status 200
     { "resultado": SUCCESSFULLY_SCORED_CONST }.to_json
   rescue InvalidScoreInfo => ex

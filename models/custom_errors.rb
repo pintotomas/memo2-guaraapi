@@ -37,7 +37,6 @@ class InvalidInscriptionError < InscriptionError
   end
 end
 
-
 class InvalidScoreInfo < QualificationError
   def initialize(msg = 'NOTA_INVALIDA')
     super

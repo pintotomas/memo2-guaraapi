@@ -59,5 +59,13 @@ describe InscriptionService do
       service.save(inscription2)
       expect { service.save(inscription3) }.to raise_error(InscriptionError)
     end
+
+    it 'raises error when subject doesnt exist in the db' do
+      expect { service.save(inscription1) }.to raise_error(UnknownSubjectError)
+    end
+
+    it 'raises error when subject doesnt exist in the db that inherits from InscriptionError' do
+      expect { service.save(inscription1) }.to raise_error(InscriptionError)
+    end
   end
 end

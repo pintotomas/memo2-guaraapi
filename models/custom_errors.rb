@@ -18,3 +18,9 @@ class ExceededQuotaError < InscriptionError
     super
   end
 end
+
+class UnknownSubjectError < InscriptionError
+  def initialize(msg = 'MATERIA_NO_EXISTE')
+    super
+  end
+end

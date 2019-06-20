@@ -7,7 +7,11 @@ class InscriptionService
   end
 
   def save(inscription)
-    subject = @subject_repository.find(inscription.subject_id)
+    begin
+      subject = @subject_repository.find(inscription.subject_id)
+    rescue Sequel::NoMatchingRow
+      raise UnknownSubjectError
+    end
     amount_in_course = @inscriptions_repository.inscriptions_in_course(subject.id)
     raise ExceededQuotaError unless subject.quota > amount_in_course
 

@@ -70,21 +70,18 @@ GuaraApi::App.controllers :students do
     inscribed = InscriptionsRepository.new.find_by_student_and_subject_id_and_in_progress(
       request_body['username_alumno'], request_body['codigo_materia']
     )
-    if !inscribed.nil?
-      status 400
-      { "error": Inscription::DUPLICATE_INSCRIPTION }.to_json
-    else
+    begin
+      raise DuplicateInscriptionError unless inscribed.nil?
+
       @inscription = get_inscription_from_json(request_body)
-      if @inscription.valid?
-        InscriptionsRepository.new.save(@inscription) # manejar inscribirse a materias inexistentes
-        status 201
-        { 'resultado' => Inscription::SUCCESSFUL_INSCRIPTION }.to_json
-      else
-        status 500
-      end
+      raise InvalidInscriptionError unless @inscription.valid?
+
+      InscriptionService.new.save(@inscription) # manejar inscribirse a materias inexistentes
+      status 201
+      { 'resultado' => Inscription::SUCCESSFUL_INSCRIPTION }.to_json
+    rescue InscriptionError => ex
+      status 400
+      { "error": ex.message }.to_json
     end
-  rescue Sequel::ForeignKeyConstraintViolation
-    status 400
-    { 'error' => 'MATERIA_NO_EXISTE' }.to_json
   end
 end

@@ -22,13 +22,13 @@ describe InscriptionsRepository do
   end
 
   let!(:inscription_without_saved_subejct) do
-    inscription = Inscription.new(student_id: 'Rob123', subject_id: 245, status: 'inscripto')
+    inscription = Inscription.new(student_id: 'Rob123', subject_id: 245, status: Inscription::INSCRIBED)
     inscription
   end
 
   let!(:inscription_to_save_one) do
     inscription = Inscription.new(student_id: 'Rob123', in_progress: true,
-                                  subject_id: subject_one.id, status: 'inscripto')
+                                  subject_id: subject_one.id, status: Inscription::INSCRIBED)
     repository.save(inscription)
     inscription
   end
@@ -42,7 +42,7 @@ describe InscriptionsRepository do
 
   let(:inscription_to_save_one_not_progress) do
     inscription = Inscription.new(student_id: 'Rob123', in_progress: false,
-                                  subject_id: subject_one.id, status: 'inscripto')
+                                  subject_id: subject_one.id, status: 'fruta')
     repository.save(inscription)
     inscription
   end
@@ -58,7 +58,7 @@ describe InscriptionsRepository do
     end
     it 'should save inscription correctly if the subject was saved before' do
       inscription = Inscription.new(subject_id: subject_one.id,
-                                    student_id: 'Rob123', status: 'inscripto')
+                                    student_id: 'Rob123', status: Inscription::INSCRIBED)
       repository.save(inscription)
     end
   end
@@ -99,6 +99,18 @@ describe InscriptionsRepository do
       inscription_in_progress = repository.find_by_student_and_subject_id_and_in_progress(inscription_to_save_one.student_id,
                                                                                           inscription_to_save_one.subject_id)
       expect(inscription_in_progress.subject_id).to eq inscription_to_save_one.subject_id
+    end
+  end
+
+  describe 'inscriptions_in_course' do
+    it 'There are 2 inscriptions, but one in progress, returns 1' do
+      inscription_to_save_one_not_progress
+      inscription_to_save_one
+      expect(repository.inscriptions_in_course(inscription_to_save_one.subject_id)).to eq 1
+    end
+
+    it 'Returns 0 when no inscriptions are foundfor the subject id' do
+      expect(repository.inscriptions_in_course(999)).to eq 0
     end
   end
 end

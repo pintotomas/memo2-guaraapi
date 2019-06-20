@@ -24,3 +24,9 @@ class UnknownSubjectError < InscriptionError
     super
   end
 end
+
+class InvalidInscriptionError < InscriptionError
+  def initialize(msg = 'INSCRIPCION_INVALIDA')
+    super
+  end
+end

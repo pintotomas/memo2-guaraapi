@@ -74,18 +74,16 @@ GuaraApi::App.controllers :students do
       status 400
       { "error": Inscription::DUPLICATE_INSCRIPTION }.to_json
     else
-      @inscription = get_inscription_from_json(request_body)
-      if @inscription.valid?
-        begin
-          InscriptionService.new.save(@inscription) # manejar inscribirse a materias inexistentes
-          status 201
-          { 'resultado' => Inscription::SUCCESSFUL_INSCRIPTION }.to_json
-        rescue InscriptionError => ex
-          status 400
-          { "error": ex.message }.to_json
-        end
-      else
-        status 500
+      begin
+        @inscription = get_inscription_from_json(request_body)
+        raise InvalidInscriptionError unless @inscription.valid?
+
+        InscriptionService.new.save(@inscription) # manejar inscribirse a materias inexistentes
+        status 201
+        { 'resultado' => Inscription::SUCCESSFUL_INSCRIPTION }.to_json
+      rescue InscriptionError => ex
+        status 400
+        { "error": ex.message }.to_json
       end
     end
   end

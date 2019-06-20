@@ -37,6 +37,7 @@ class InvalidInscriptionError < InscriptionError
   end
 end
 
+
 class InvalidScoreInfo < QualificationError
   def initialize(msg = 'NOTA_INVALIDA')
     super
@@ -45,6 +46,12 @@ end
 
 class ForeignKeyConstraintViolation < QualificationError
   def initialize(msg = 'Foreign key constraint violation')
+    super
+  end
+end
+
+class ApprovedSubjectError < InscriptionError
+  def initialize(msg = Inscription::APPROVED_SUBJECT)
     super
   end
 end

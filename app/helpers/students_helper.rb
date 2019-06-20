@@ -21,7 +21,7 @@ module GuaraApi
         subjects.each do |subject|
           subject_response =
             { codigo: subject[:subject_id],
-              nommbre: subject[:name],
+              nombre: subject[:name],
               docente: subject[:professor] }
 
           subjects_response.push(subject_response)

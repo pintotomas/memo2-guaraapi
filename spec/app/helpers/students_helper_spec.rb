@@ -30,14 +30,14 @@ RSpec.describe 'GuaraApi::App::StudentsHelper' do
   it 'build response from object sequel' do
     response = student_helper.build_subjects_response_from_sequel(subjects_from_sequel)
     expect(response[0][:codigo]).to eq subjects_from_sequel[0][:id]
-    expect(response[0][:materia]).to eq subjects_from_sequel[0][:name]
+    expect(response[0][:nombre]).to eq subjects_from_sequel[0][:name]
     expect(response[0][:docente]).to eq subjects_from_sequel[0][:professor]
   end
 
   it 'build response from  object join sequel' do
     response = student_helper.build_subjects_response_from_sequel_join(subjects_from_join_sequel)
     expect(response[0][:codigo]).to eq subjects_from_join_sequel[0][:subject_id]
-    expect(response[0][:materia]).to eq subjects_from_join_sequel[0][:name]
+    expect(response[0][:nombre]).to eq subjects_from_join_sequel[0][:name]
     expect(response[0][:docente]).to eq subjects_from_join_sequel[0][:professor]
   end
 end

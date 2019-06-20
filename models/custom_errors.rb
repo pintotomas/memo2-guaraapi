@@ -13,6 +13,12 @@ end
 class InscriptionError < RuntimeError
 end
 
+class QualificationError < RuntimeError
+  def initialize(msg)
+    super
+  end
+end
+
 class ExceededQuotaError < InscriptionError
   def initialize(msg = 'CUPO_COMPLETO')
     super
@@ -31,6 +37,19 @@ class InvalidInscriptionError < InscriptionError
   end
 end
 
+
+class InvalidScoreInfo < QualificationError
+  def initialize(msg = 'NOTA_INVALIDA')
+    super
+  end
+end
+
+class ForeignKeyConstraintViolation < QualificationError
+  def initialize(msg = 'Foreign key constraint violation')
+    super
+  end
+end
+
 class ApprovedSubjectError < InscriptionError
   def initialize(msg = Inscription::APPROVED_SUBJECT)
     super
@@ -39,6 +58,12 @@ end
 
 class DuplicateInscriptionError < InscriptionError
   def initialize(msg = Inscription::DUPLICATE_INSCRIPTION)
+    super
+  end
+end
+
+class InvalidStudentError < QualificationError
+  def initialize(msg = 'ALUMNO_INCORRECTO')
     super
   end
 end

@@ -25,35 +25,11 @@ GuaraApi::App.controllers :professors do
 
   post :calificar, map: '/calificar' do
     request_body = JSON.parse(request.body.read.gsub('\"', '"'))
-    inscription = InscriptionsRepository.new.find_by_student_and_subject_id(
-      request_body['username_alumno'], request_body['codigo_materia']
-    )
-    subject_type = SubjectRepository.new.find(request_body['codigo_materia']).type
-    if inscription.nil? || !inscription.in_progress
-      status 400
-      { "error": INVALID_STUDENT }.to_json
-    else
-      begin
-        grades = JSON.parse(request_body['notas'])
-      rescue JSON::ParserError
-        status 400
-        return { "error": INVALID_SCORE }.to_json
-      end
-      score = Score.new(inscription_id: inscription.id, scores: grades,
-                        type_subject: subject_type)
-      if score.valid?
-        inscription.score(score)
-        InscriptionsRepository.new.save(inscription)
-        ScoresRepository.new.save(score)
-        status 200
-        { "resultado": SUCCESSFULLY_SCORED_CONST }.to_json
-      else
-        status 400
-        { "error": score.errors.messages.values[0][0] }.to_json
-      end
-    end
-
-  rescue Sequel::ForeignKeyConstraintViolation
-    status 500
+    QualificationService.new(request_body).score
+    status 200
+    { "resultado": SUCCESSFULLY_SCORED_CONST }.to_json
+  rescue QualificationError => ex
+    status 400
+    { "error": ex.message }.to_json
   end
 end

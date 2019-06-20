@@ -14,22 +14,13 @@ GuaraApi::App.controllers :students do
   end
 
   get :materias, map: '/materias' do
-    subjects_response = []
     alias_name = request.params['usernameAlumno']
     if request.params['usernameAlumno'].nil?
       status 400
       { "error": REQUIRED_USER_NAME }.to_json
     else
-
       subjects = InscriptionsRepository.new.inscribed_subjects_not_approbed(alias_name)
-      subjects.each do |subject|
-        subject_response =
-          { codigo: subject[:id],
-            materia: subject[:name],
-            docente: subject[:professor] }
-
-        subjects_response.push(subject_response)
-      end
+      subjects_response = build_subjects_response_from_sequel(subjects)
       { 'oferta' => subjects_response }.to_json
     end
   end
@@ -53,20 +44,13 @@ GuaraApi::App.controllers :students do
 
   get :estado, map: '/inscripciones' do
     alias_name = request.params['usernameAlumno']
-    inscribed_subjects = []
     if request.params['usernameAlumno'].nil?
       status 400
       { "error": REQUIRED_USER_NAME }.to_json
     else
 
       subjects = InscriptionsRepository.new.my_inscribed_inscriptions(alias_name)
-      subjects.each do |subject|
-        subject_response =
-          { codigo: subject[:subject_id],
-            materia: subject[:name],
-            docente: subject[:professor] }
-        inscribed_subjects.push(subject_response)
-      end
+      inscribed_subjects = build_subjects_response_from_sequel_join(subjects)
       status 200
       { 'inscripciones' => inscribed_subjects }.to_json
     end

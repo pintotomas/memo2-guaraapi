@@ -7,10 +7,12 @@ class Subject
   MAX_QUOTA_CONST = 300
   INVALID_TYPE_CONST = 'MODALIDAD_INVALIDA'.freeze
   EXCEEDED_QUOTA_CONST = 'CUPO_EXCEDIDO'.freeze
+  INVALID_QUOTA_CONST = 'CUPO_ERRONEO'.freeze
   INVALID_RESOURCES_REQUEST = 'PEDIDOS_INCOMPATIBLES'.freeze
   MAX_CHARACTERS_NAME = 50
   EXCEEDED_CHARACTERS_NAME = 'NOMBRE_ERRONEO'.freeze
   MAX_QUOTA_CONST = 300
+  MIN_QUOTA_CONST = 1
   attr_accessor :id, :name, :professor, :type, :requires_proyector, :requires_lab,
                 :updated_on, :created_on, :quota
 
@@ -28,6 +30,8 @@ class Subject
   validates :type, inclusion: { in: %w[coloquio tareas parciales], message: INVALID_TYPE_CONST }
 
   validates :quota, numericality: { less_than_or_equal_to: MAX_QUOTA_CONST, message: EXCEEDED_QUOTA_CONST }
+
+  validates :quota, numericality: { greater_than_or_equal_to: MIN_QUOTA_CONST, message: INVALID_QUOTA_CONST }
 
   validate :resources_request
 

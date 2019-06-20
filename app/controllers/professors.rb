@@ -25,20 +25,11 @@ GuaraApi::App.controllers :professors do
 
   post :calificar, map: '/calificar' do
     request_body = JSON.parse(request.body.read.gsub('\"', '"'))
-
     QualificationService.new(request_body).score
     status 200
     { "resultado": SUCCESSFULLY_SCORED_CONST }.to_json
-  rescue InvalidScoreInfo => ex
+  rescue QualificationError => ex
     status 400
     { "error": ex.message }.to_json
-  rescue InvalidStudentError => ex
-    status 400
-    { "error": ex.message }.to_json
-  rescue Sequel::ForeignKeyConstraintViolation
-    status 500
-  rescue JSON::ParserError
-    status 400
-    { "error": INVALID_SCORE }.to_json
   end
 end

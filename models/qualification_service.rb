@@ -6,6 +6,8 @@ class QualificationService
     validate_inscription
     @subject_type = SubjectRepository.new.find(request_body['codigo_materia']).type
     @grades = JSON.parse(request_body['notas'])
+  rescue JSON::ParserError
+    raise InvalidScoreInfo
   end
 
   def score
@@ -13,10 +15,12 @@ class QualificationService
                       type_subject: @subject_type)
 
     validate_score(score)
-
     @inscription.score(score)
+
     InscriptionsRepository.new.save(@inscription)
     ScoresRepository.new.save(score)
+  rescue Sequel::ForeignKeyConstraintViolation
+    raise ForeignKeyConstraintViolation
   end
 
   private

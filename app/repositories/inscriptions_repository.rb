@@ -39,6 +39,11 @@ class InscriptionsRepository < BaseRepository
     count
   end
 
+  def approved_inscriptions(subject_id, alias_name)
+    count = dataset.where(subject_id: subject_id, student_id: alias_name, status: Inscription::APPROVED_CONST).count
+    count
+  end
+
   protected
 
   def changeset(inscription)

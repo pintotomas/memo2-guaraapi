@@ -31,6 +31,12 @@ class InvalidInscriptionError < InscriptionError
   end
 end
 
+class ApprovedSubjectError < InscriptionError
+  def initialize(msg = Inscription::APPROVED_SUBJECT)
+    super
+  end
+end
+
 class DuplicateInscriptionError < InscriptionError
   def initialize(msg = Inscription::DUPLICATE_INSCRIPTION)
     super

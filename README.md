@@ -94,3 +94,8 @@ Send a POST request to http://localhost:3000/calificar with a body like this:
 Send a GET request to http://localhost:3000/promedio with a PARAM like this:
 usernameAlumno: juanperez
 
+Contributors:
+
+- Santiago Bianco
+- Santiago Weber
+- Tomás Pinto

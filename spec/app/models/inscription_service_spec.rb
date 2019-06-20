@@ -52,5 +52,12 @@ describe InscriptionService do
       expect { service.save(inscription3) }.to raise_error(ExceededQuotaError)
       expect(service.inscriptions_repository.inscriptions_in_course(subject_one.id)).to eq 2
     end
+
+    it 'error raised inherits from InscriptionError' do
+      service.subject_repository.save(subject_one)
+      service.save(inscription1)
+      service.save(inscription2)
+      expect { service.save(inscription3) }.to raise_error(InscriptionError)
+    end
   end
 end

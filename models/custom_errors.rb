@@ -10,5 +10,11 @@ end
 class ScoreCanNotBeNilError < RuntimeError
 end
 
-class ExceededQuotaError < RuntimeError
+class InscriptionError < RuntimeError
+end
+
+class ExceededQuotaError < InscriptionError
+  def initialize(msg = 'The number of inscriptions has to be less than or equal to the course quota')
+    super
+  end
 end

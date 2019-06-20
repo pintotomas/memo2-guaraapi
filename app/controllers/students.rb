@@ -84,6 +84,7 @@ GuaraApi::App.controllers :students do
       end
     end
   rescue Sequel::ForeignKeyConstraintViolation
-    status 500
+    status 400
+    { 'error' => 'MATERIA_NO_EXISTE' }.to_json
   end
 end

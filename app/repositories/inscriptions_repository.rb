@@ -25,7 +25,7 @@ class InscriptionsRepository < BaseRepository
   def inscribed_subjects_not_approbed(alias_name)
     return SubjectRepository.new.all.all if dataset.where(student_id: alias_name).all.empty?
 
-    inscriptions = DB["SELECT subjects.id, in_progress, name ,professor, status, student_id FROM subjects
+    inscriptions = DB["SELECT subjects.id, in_progress, name ,professor, status, quota, type, student_id FROM subjects
                       LEFT JOIN ( select * from inscriptions where student_id = '" + alias_name + "') misinscripciones
                       ON misinscripciones.subject_id = subjects.id
                       WHERE

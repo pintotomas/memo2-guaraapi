@@ -6,10 +6,14 @@ module GuaraApi
       def build_subjects_response_from_sequel(subjects)
         subjects_response = []
         subjects.each do |subject|
+          available_space = subject[:quota].to_i - InscriptionsRepository.new.inscriptions_in_course(subject[:id])
           subject_response =
             { codigo: subject[:id],
               nombre: subject[:name],
-              docente: subject[:professor] }
+              docente: subject[:professor],
+              modalidad: subject[:type],
+              cupo: subject[:quota],
+              cupo_disponible: available_space }
 
           subjects_response.push(subject_response)
         end

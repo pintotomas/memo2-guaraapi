@@ -14,7 +14,7 @@ class InscriptionError < RuntimeError
 end
 
 class ExceededQuotaError < InscriptionError
-  def initialize(msg = 'The number of inscriptions has to be less than or equal to the course quota')
+  def initialize(msg = 'CUPO_COMPLETO')
     super
   end
 end
@@ -27,6 +27,12 @@ end
 
 class InvalidInscriptionError < InscriptionError
   def initialize(msg = 'INSCRIPCION_INVALIDA')
+    super
+  end
+end
+
+class DuplicateInscriptionError < InscriptionError
+  def initialize(msg = Inscription::DUPLICATE_INSCRIPTION)
     super
   end
 end

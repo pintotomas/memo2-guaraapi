@@ -29,6 +29,6 @@ RSpec/MultipleExpectations:
 RSpec/LetSetup:
   Enabled: False
 RSpec/ExampleLength:
-  Max: 6
+  Max: 9
 Metrics/BlockLength:
   Max: 200

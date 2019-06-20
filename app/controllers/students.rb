@@ -76,14 +76,19 @@ GuaraApi::App.controllers :students do
     else
       @inscription = get_inscription_from_json(request_body)
       if @inscription.valid?
-        InscriptionsRepository.new.save(@inscription) # manejar inscribirse a materias inexistentes
-        status 201
-        { 'resultado' => Inscription::SUCCESSFUL_INSCRIPTION }.to_json
+        begin
+          InscriptionService.new.save(@inscription) # manejar inscribirse a materias inexistentes
+          status 201
+          { 'resultado' => Inscription::SUCCESSFUL_INSCRIPTION }.to_json
+        rescue InscriptionError => ex
+          status 400
+          { "error": ex.message }.to_json
+        end
       else
         status 500
       end
     end
-  rescue Sequel::ForeignKeyConstraintViolation
+  rescue Sequel::NoMatchingRow
     status 400
     { 'error' => 'MATERIA_NO_EXISTE' }.to_json
   end
